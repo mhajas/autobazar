@@ -1,14 +1,15 @@
 package PB138.project.database;
 
-import org.exist.xmldb.XQueryService;
 import org.junit.*;
 import org.junit.Test;
 import org.xmldb.api.DatabaseManager;
 import org.xmldb.api.base.*;
+import org.xmldb.api.base.Collection;
 import org.xmldb.api.modules.CollectionManagementService;
 import org.xmldb.api.modules.XMLResource;
 
 import java.math.BigDecimal;
+import java.util.*;
 
 import static org.junit.Assert.*;
 
@@ -153,18 +154,66 @@ public class CarManagerImplTest {
         }
     }
 
-    /*
-        @Test
-        public void testGetCarById() throws Exception {
 
+    @Test
+    public void testGetCarById() throws Exception {
+        Car testCar = new Car("Honda", 80000, new BigDecimal("150000"), "blue", "OK stav");
+        Car testCar2 = new Car("Ferrari", 180000, new BigDecimal("1500000"), "red", "NOK stav");
+        manager.createCar(testCar);
+        manager.createCar(testCar2);
+        Long carId=testCar.getId();
+        assertNotNull(carId);
+        Car result =manager.getCarById(carId);
+        assertEquals(testCar,result);
+        assertDeepEquals(testCar,result);
+
+        Long carId2=testCar2.getId();
+        assertNotNull(carId2);
+        Car result2=manager.getCarById(carId2);
+        assertEquals(testCar2,result2);
+        assertDeepNotEquals(testCar2,result2);
+        assertNotEquals(carId,carId2);
+
+    }
+
+    @Test
+    public void testGetCarByIdWithWrongArguments() throws Exception {
+        try{
+            manager.getCarById(null);
+            fail();
+        }catch (CarException ex) {
+            //OK
         }
 
-        @Test
-        public void testGetAllCars() throws Exception {
-
+        try{
+            manager.getCarById(-1l);
+            fail();
+        }catch (CarException ex){
+            //OK
         }
+    }
 
-        @Test
+    @Test
+    public void testGetAllCars() throws Exception {
+        Car testCar = new Car("Honda", 80000, new BigDecimal("150000"), "blue", "OK stav");
+        Car testCar2 = new Car("Ferrari", 180000, new BigDecimal("1500000"), "red", "NOK stav");
+        Car testCar3 = new Car("Porshe", 30000, new BigDecimal("900000"), "white", "Nove");
+        manager.createCar(testCar);
+        manager.createCar(testCar2);
+        manager.createCar(testCar3);
+
+        List<Car> expected = Arrays.asList(testCar, testCar2, testCar3);
+        List<Car> actual = new ArrayList<>(manager.getAllCars());
+
+        Collections.sort(expected, idComparator);
+        Collections.sort(actual, idComparator);
+
+        assertEquals(expected, actual);
+        assertDeepEquals(expected, actual);
+
+    }
+
+        /*@Test
         public void testGetCarsByManufacturer() throws Exception {
 
         }
@@ -187,14 +236,117 @@ public class CarManagerImplTest {
         @Test
         public void testGetCarsByKm() throws Exception {
 
+        }*/
+
+    @Test
+    public void testUpdateCar() throws Exception {
+        Car testCar = new Car("Honda", 80000, new BigDecimal("150000"), "blue", "OK stav");
+        manager.createCar(testCar);
+        Long carId = testCar.getId();
+        Car testCar2 = new Car("Ferrari", 180000, new BigDecimal("1500000"), "red", "NOK stav");
+        testCar2.setId(carId);
+        manager.updateCar(testCar2);
+        Car result=manager.getCarById(carId);
+        assertEquals(testCar2, result);
+
+    }
+
+    @Test
+    public void testUpdateCarWithWrongArguments() throws Exception {
+        Car testCar = new Car("Honda", 80000, new BigDecimal("150000"), "blue", "OK stav");
+        manager.createCar(testCar);
+        Long carId = testCar.getId();
+
+        try{
+            manager.updateCar(null);
+            fail();
+        }catch (CarException ex){
+            //OK
         }
 
-        @Test
-        public void testUpdateCar() throws Exception {
-
+        try{
+            testCar.setId(null);
+            manager.updateCar(testCar);
+            fail();
+        }catch (CarException ex){
+            //OK
         }
 
-        @Test
+        try{
+            testCar=manager.getCarById(carId);
+            testCar.setId(null);
+            manager.updateCar(testCar);
+            fail();
+        }catch (CarException ex){
+            //OK
+        }
+
+        try{
+            testCar=manager.getCarById(carId);
+            testCar.setManufacturer(null);
+            manager.updateCar(testCar);
+            fail();
+        }catch (CarException ex){
+            //OK
+        }
+
+        try{
+            testCar=manager.getCarById(carId);
+            testCar.setManufacturer("");
+            manager.updateCar(testCar);
+            fail();
+        }catch (CarException ex){
+            //OK
+        }
+
+        try{
+            testCar=manager.getCarById(carId);
+            testCar.setKm(-1);
+            manager.updateCar(testCar);
+            fail();
+        }catch (CarException ex){
+            //OK
+        }
+
+        try{
+            testCar=manager.getCarById(carId);
+            testCar.setPrice(null);
+            manager.updateCar(testCar);
+            fail();
+        }catch (CarException ex){
+            //OK
+        }
+
+        try{
+            testCar=manager.getCarById(carId);
+            testCar.setPrice(new BigDecimal("-150000"));
+            manager.updateCar(testCar);
+            fail();
+        }catch (CarException ex){
+            //OK
+        }
+
+        try{
+            testCar=manager.getCarById(carId);
+            testCar.setColor(null);
+            manager.updateCar(testCar);
+            fail();
+        }catch (CarException ex){
+            //OK
+        }
+
+        try{
+            testCar=manager.getCarById(carId);
+            testCar.setColor("");
+            manager.updateCar(testCar);
+            fail();
+        }catch (CarException ex){
+            //OK
+        }
+    }
+
+
+       /* @Test
         public void testDeleteCar() throws Exception {
 
         }*/
@@ -221,5 +373,20 @@ public class CarManagerImplTest {
         assertEquals(expected.getDescription(), actual.getDescription());
     }
 
+    private void assertDeepEquals(List<Car> expectedList, List<Car> actualList) {
+        for (int i = 0; i < expectedList.size(); i++) {
+            Car expected = expectedList.get(i);
+            Car actual = actualList.get(i);
+            assertDeepEquals(expected, actual);
+        }
+    }
+
+    private static Comparator<Car> idComparator = new Comparator<Car>() {
+
+        @Override
+        public int compare(Car o1, Car o2) {
+            return o1.getId().compareTo(o2.getId());
+        }
+    };
 
 }
