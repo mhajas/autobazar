@@ -51,11 +51,11 @@ public class CarManagerImplTest {
 
     @After
     public void tearDown() throws Exception {
-        //Collection parent = DatabaseManager.getCollection(PREFIX,"admin","test123");
-        //CollectionManagementService mgt = (CollectionManagementService) parent.getService("CollectionManagementService", "1.0");
+        Collection parent = DatabaseManager.getCollection(PREFIX,"admin","test123");
+        CollectionManagementService mgt = (CollectionManagementService) parent.getService("CollectionManagementService", "1.0");
 
-        //mgt.removeCollection(PREFIX + "cars");
-       // parent.close();
+        mgt.removeCollection(PREFIX + "cars");
+        parent.close();
         collection.close();
     }
 
@@ -65,58 +65,152 @@ public class CarManagerImplTest {
 
         manager.createCar(testCar);
         Long carId = testCar.getId();
+        assertNotNull(carId);
 
         Car result = manager.getCarById(carId);
 
         assertEquals(testCar, result);
         assertNotSame(testCar, result);
         assertDeepEquals(testCar, result);
-   }
-/*
-    @Test
-    public void testGetCarById() throws Exception {
+
+        Car testCar2 = new Car("Ferrari", 180000, new BigDecimal("1500000"), "red", "NOK stav");
+
+        manager.createCar(testCar2);
+        carId = testCar2.getId();
+        assertNotNull(carId);
+
+        Car result2 = manager.getCarById(carId);
+        assertEquals(testCar2, result2);
+        assertNotSame(testCar2, result2);
+        assertDeepEquals(testCar2, result2);
+
+        assertNotEquals(result, result2);
+        assertDeepNotEquals(result, result2);
 
     }
 
     @Test
-    public void testGetAllCars() throws Exception {
+    public void testCreateCarWithWrongArguments() throws Exception{
+        try{
+            manager.createCar(null);
+            fail();
+        }catch (CarException ex){
+            //OK
+        }
 
+        try{
+            Car testCar=new Car(null ,80000,  new BigDecimal("150000"), "blue", "OK stav");
+            manager.createCar(testCar);
+            fail();
+        }catch (CarException ex){
+            //OK
+        }
+
+        try{
+            Car testCar = new Car("", 80000, new BigDecimal("150000"), "blue", "OK stav");
+            manager.createCar(testCar);
+            fail();
+        }catch (CarException ex){
+            //OK
+        }
+
+        try{
+            Car testCar=new Car("Honda" ,-80000,  new BigDecimal("150000"), "blue", "OK stav");
+            manager.createCar(testCar);
+            fail();
+        }catch (CarException ex){
+            //OK
+        }
+        try{
+            Car testCar=new Car("Honda" ,80000,  new BigDecimal("-150000"), "blue", "OK stav");
+            manager.createCar(testCar);
+            fail();
+        }catch (CarException ex){
+            //OK
+        }
+
+        try{
+            Car testCar = new Car("Honda", 80000, null, "blue", "OK stav");
+            manager.createCar(testCar);
+            fail();
+        }catch (CarException ex){
+            //OK
+        }
+
+        try{
+            Car testCar = new Car("Honda", 80000, new BigDecimal("150000"), "", "OK stav");
+            manager.createCar(testCar);
+            fail();
+        }catch (CarException ex){
+            //OK
+        }
+        try{
+            Car testCar = new Car("Honda", 80000, new BigDecimal("150000"), null, "OK stav");
+            manager.createCar(testCar);
+            fail();
+        }catch (CarException ex){
+            //OK
+        }
     }
 
-    @Test
-    public void testGetCarsByManufacturer() throws Exception {
+    /*
+        @Test
+        public void testGetCarById() throws Exception {
 
+        }
+
+        @Test
+        public void testGetAllCars() throws Exception {
+
+        }
+
+        @Test
+        public void testGetCarsByManufacturer() throws Exception {
+
+        }
+
+        @Test
+        public void testGetCarsByColor() throws Exception {
+
+        }
+
+        @Test
+        public void testGetCarsByKmLessThan() throws Exception {
+
+        }
+
+        @Test
+        public void testGetCarsByKmMoreThan() throws Exception {
+
+        }
+
+        @Test
+        public void testGetCarsByKm() throws Exception {
+
+        }
+
+        @Test
+        public void testUpdateCar() throws Exception {
+
+        }
+
+        @Test
+        public void testDeleteCar() throws Exception {
+
+        }*/
+
+    private void assertDeepNotEquals(Car expected, Car actual) {
+        boolean res = true;
+
+        if (!expected.getId().equals(actual.getId())) res = false;
+        if (expected.getManufacturer().equals(actual.getManufacturer())) res = false;
+        if (expected.getKm() != actual.getKm()) res = false;
+        if (!expected.getPrice().equals(actual.getPrice()))res = false;
+        if (!expected.getColor().equals(actual.getColor())) res = false;
+        if (!expected.getDescription().equals(actual.getDescription())) res = false;
+
+        assertFalse(res);
     }
-
-    @Test
-    public void testGetCarsByColor() throws Exception {
-
-    }
-
-    @Test
-    public void testGetCarsByKmLessThan() throws Exception {
-
-    }
-
-    @Test
-    public void testGetCarsByKmMoreThan() throws Exception {
-
-    }
-
-    @Test
-    public void testGetCarsByKm() throws Exception {
-
-    }
-
-    @Test
-    public void testUpdateCar() throws Exception {
-
-    }
-
-    @Test
-    public void testDeleteCar() throws Exception {
-
-    }*/
 
     private void assertDeepEquals(Car expected, Car actual){
         assertEquals(expected.getId(), actual.getId());
