@@ -46,7 +46,6 @@ public class CarManagerImpl implements CarManager {
                     "element color {$color}, " +
                     "element description {$description}" +
                     "} into $doc/cars";
-            //System.out.println(car.toXML());
             XQueryService service = (XQueryService) collection.getService("XQueryService", "1.0");
 
             service.declareVariable("document", "/db/cars/cars.xml");
@@ -155,7 +154,6 @@ public class CarManagerImpl implements CarManager {
         try {
             String xQuery = "let $doc := doc($document)" +
                     "return $doc/cars/car[@id=$id]";
-            //System.out.println(car.toXML());
             XQueryService service = (XQueryService) collection.getService("XQueryService", "1.0");
 
             service.declareVariable("document", "/db/cars/cars.xml");
@@ -232,7 +230,6 @@ public class CarManagerImpl implements CarManager {
                 }
                 el = (Element) a.item(0);
                 if(!el.getTextContent().isEmpty()){
-
                     car.setDescription(el.getTextContent());
                 }
                 return car;
@@ -242,10 +239,9 @@ public class CarManagerImpl implements CarManager {
             } catch (IOException e) {
                 throw new CarException("Error parsing car");
             }
-        } catch (ParserConfigurationException e1) {
-            // handle ParserConfigurationException
+        } catch (ParserConfigurationException ex) {
+            throw new CarException("Error while configure parser", ex);
         }
-        return null;
     }
 
     public void bindCarToXQuery(Car car, XQueryService service){
@@ -266,14 +262,12 @@ public class CarManagerImpl implements CarManager {
         }
     }
 
-
     @Override
     public Collection<Car> getAllCars() {
         List<Car> resultList = new ArrayList<>();
         try {
             String xQuery = "let $doc := doc($document)" +
                     "return $doc/cars/car";
-            //System.out.println(car.toXML());
             XQueryService service = (XQueryService) collection.getService("XQueryService", "1.0");
 
             service.declareVariable("document", "/db/cars/cars.xml");
@@ -288,9 +282,8 @@ public class CarManagerImpl implements CarManager {
                 resultList.add(parseCarFromXML(resource.getContent().toString()));
             }
         }catch(XMLDBException ex){
-            throw new DBException("Error while creating new car",ex);
+            throw new DBException("Error while getting all cars", ex);
         }
-        System.out.println(resultList);
         return resultList;
     }
 
@@ -361,6 +354,33 @@ public class CarManagerImpl implements CarManager {
 
     @Override
     public void deleteCar(Car car) {
-        throw new UnsupportedOperationException("not implemented yet");
+        if(car.getId() == null){
+            throw new CarException("Car id is null");
+        }
+
+        if(car.getId() < 0){
+            throw new CarException("Car id is negative");
+        }
+
+        if(getCarById(car.getId()) == null){
+            throw new CarException("There is no car with id: " + car.getId() + " in DB");
+        }
+
+        try {
+            String xQuery = "let $doc := doc($document)" +
+                    "return update delete $doc/cars/car[@id=$id]";
+
+            XQueryService service = (XQueryService) collection.getService("XQueryService", "1.0");
+
+            service.declareVariable("document", "/db/cars/cars.xml");
+            bindCarToXQuery(car, service);
+
+            service.setProperty("indent", "yes");
+            CompiledExpression compiled = service.compile(xQuery);
+
+            service.execute(compiled);
+        } catch (XMLDBException ex){
+            throw new DBException("Error while deleting car", ex);
+        }
     }
 }
