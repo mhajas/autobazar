@@ -8,14 +8,15 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xmldb.api.base.*;
 
-
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.io.StringReader;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * Created by Michal on 24.4.2015.
@@ -176,7 +177,6 @@ public class CarManagerImpl implements CarManager {
         }catch(XMLDBException ex){
             throw new DBException("Error while creating new car",ex);
         }
-
         return null;
     }
 
@@ -269,7 +269,30 @@ public class CarManagerImpl implements CarManager {
 
     @Override
     public Collection<Car> getAllCars() {
-        throw new UnsupportedOperationException("not implemented yet");    }
+        List<Car> resultList = new ArrayList<>();
+        try {
+            String xQuery = "let $doc := doc($document)" +
+                    "return $doc/cars/car";
+            //System.out.println(car.toXML());
+            XQueryService service = (XQueryService) collection.getService("XQueryService", "1.0");
+
+            service.declareVariable("document", "/db/cars/cars.xml");
+
+            service.setProperty("indent", "yes");
+            CompiledExpression compiled = service.compile(xQuery);
+
+            ResourceSet res = service.execute(compiled);
+            ResourceIterator it = res.getIterator();
+            while(it.hasMoreResources()){
+                Resource resource = it.nextResource();
+                resultList.add(parseCarFromXML(resource.getContent().toString()));
+            }
+        }catch(XMLDBException ex){
+            throw new DBException("Error while creating new car",ex);
+        }
+        System.out.println(resultList);
+        return resultList;
+    }
 
     @Override
     public Collection<Car> getCarsByManufacturer(String manufacturer) {
@@ -298,7 +321,42 @@ public class CarManagerImpl implements CarManager {
 
     @Override
     public void updateCar(Car car) {
-        throw new UnsupportedOperationException("not implemented yet");
+        checkCar(car);
+        if(car.getId() == null){
+            throw new CarException("Car id is null");
+        }
+
+        if(car.getId() < 0){
+            throw new CarException("Car id is negative");
+        }
+
+        if(getCarById(car.getId()) == null){
+            throw new CarException("There is no car with id: " + car.getId() + " in DB");
+        }
+
+        try {
+            String xQuery = "let $doc := doc($document)" +
+                    "return update replace $doc/cars/car[@id=$id] with " +
+                    "element car{ " +
+                    "attribute id {$id}, " +
+                    "element manufacturer {$manufacturer}, " +
+                    "element km {$km}, " +
+                    "element price {$price}, " +
+                    "element color {$color}, " +
+                    "element description {$description}}";
+
+            XQueryService service = (XQueryService) collection.getService("XQueryService", "1.0");
+
+            service.declareVariable("document", "/db/cars/cars.xml");
+            bindCarToXQuery(car, service);
+
+            service.setProperty("indent", "yes");
+            CompiledExpression compiled = service.compile(xQuery);
+
+            service.execute(compiled);
+        } catch (XMLDBException ex){
+            throw new DBException("Error while updating car", ex);
+        }
     }
 
     @Override
