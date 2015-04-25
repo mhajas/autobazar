@@ -49,7 +49,7 @@ public class CarManagerImpl implements CarManager {
             XQueryService service = (XQueryService) collection.getService("XQueryService", "1.0");
 
             service.declareVariable("document", "/db/cars/cars.xml");
-            car.bindCarToXQuery(service);
+            bindCarToXQuery(car, service);
 
             service.setProperty("indent", "yes");
             CompiledExpression compiled = service.compile(xQuery);
@@ -246,6 +246,24 @@ public class CarManagerImpl implements CarManager {
             // handle ParserConfigurationException
         }
         return null;
+    }
+
+    public void bindCarToXQuery(Car car, XQueryService service){
+        try {
+            service.declareVariable("id", car.getId());
+            service.declareVariable("manufacturer", car.getManufacturer());
+            service.declareVariable("km", car.getKm());
+            service.declareVariable("price", car.getPrice());
+            service.declareVariable("color", car.getColor());
+            if (car.getDescription() == null) {
+                service.declareVariable("description", "");
+            } else {
+                service.declareVariable("description", car.getDescription());
+            }
+        }catch(XMLDBException ex){
+            throw new DBException("Error while binding car.", ex);
+
+        }
     }
 
 

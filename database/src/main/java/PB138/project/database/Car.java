@@ -16,9 +16,7 @@ public class Car {
     private String color;
     private String description;
 
-    public Car(String manufacturer,  int km, BigDecimal price, String color) {
-        this(manufacturer,km,price,color,null);
-    }
+    public Car() {}
 
     public Car(String manufacturer, int km, BigDecimal price, String color, String description) {
         this.manufacturer = manufacturer;
@@ -26,6 +24,10 @@ public class Car {
         this.price = price;
         this.color = color;
         this.description = description;
+    }
+
+    public Car(String manufacturer,  int km, BigDecimal price, String color) {
+        this(manufacturer,km,price,color,null);
     }
 
     public Long getId() {
@@ -126,25 +128,5 @@ public class Car {
         result += "</car>";
 
         return result;
-    }
-
-    public Car() {}
-
-    public void bindCarToXQuery(XQueryService service){
-        try {
-            service.declareVariable("id", getId());
-            service.declareVariable("manufacturer", getManufacturer());
-            service.declareVariable("km", getKm());
-            service.declareVariable("price", getPrice());
-            service.declareVariable("color", getColor());
-            if (getDescription() == null) {
-                service.declareVariable("description", "");
-            } else {
-                service.declareVariable("description", getDescription());
-            }
-        }catch(XMLDBException ex){
-            throw new DBException("Error while binding car.", ex);
-
-        }
     }
 }
