@@ -20,7 +20,7 @@ import java.math.BigDecimal;
 @WebServlet(CarServlet.URL_MAPPING + "/*")
 public class CarServlet extends HttpServlet {
 
-    private static final String LIST_JSP = "/listCar.jsp";
+    private static final String LIST_JSP = "/car.jsp";
     public static final String URL_MAPPING = "/cars";
 
     private final static Logger log = LoggerFactory.getLogger(CarServlet.class);
@@ -37,17 +37,29 @@ public class CarServlet extends HttpServlet {
         switch (action) {
             case "/add":
                 String manufacturer = request.getParameter("manufacturer");
-                Integer km = Integer.getInteger(request.getParameter("km"));
+                int km;
+                try {
+                    km = Integer.parseInt(request.getParameter("km"));
+                }catch (NumberFormatException ex){
+                    request.setAttribute("chyba", "Bad km format");
+                    showCarList(request, response);
+                    return;
+                }
                 BigDecimal price = new BigDecimal(request.getParameter("price").replaceAll(",", "")); //TODO dorobit
                 String color = request.getParameter("color");
                 String description = request.getParameter("description");
-                if (manufacturer.length()==0 || manufacturer==null || km<0 || km==null
-                        || color.length()==0 || color==null || description.length()==0 || description==null
-                        || price.intValue()<0
+                if (manufacturer == null
+                        || manufacturer.isEmpty()
+                        || km<0
+                        || color==null
+                        || color.isEmpty()
+                        || description==null
+                        || description.isEmpty()
+                        || price.compareTo(new BigDecimal(0)) < 0
                         ) {
                     request.setAttribute("chyba", "Je nutné vyplnit všechny hodnoty spravne !");
                     showCarList(request, response);
-                    break;
+                    return;
                 }
                 try {
                     Car car = new Car();
@@ -93,19 +105,25 @@ public class CarServlet extends HttpServlet {
                 try {
                     id = Long.parseLong(request.getParameter("id"));
                     manufacturer = request.getParameter("manufacturer");
-                    km = Integer.getInteger(request.getParameter("km"));
+                    km = Integer.parseInt(request.getParameter("km"));
                     price = new BigDecimal(request.getParameter("price").replaceAll(",", "")); //TODO dorobit
                     color = request.getParameter("color");
                     description = request.getParameter("description");
-                    if (manufacturer.length()==0 || manufacturer==null || km<0 || km==null
-                            || color.length()==0 || color==null || description.length()==0 || description==null
-                            || price.intValue()<0
+                    if (manufacturer == null
+                            || manufacturer.isEmpty()
+                            || km<0
+                            || color==null
+                            || color.isEmpty()
+                            || description==null
+                            || description.isEmpty()
+                            || price.compareTo(new BigDecimal(0)) < 0
                             ) {
                         request.setAttribute("chyba", "Je nutné vyplnit všechny hodnoty spravne !");
                         showCarList(request, response);
                         break;
                     }
                     car = new Car();
+                    car.setId(id);
                     car.setManufacturer(manufacturer);
                     car.setKm(km);
                     car.setPrice(price);
@@ -143,7 +161,7 @@ public class CarServlet extends HttpServlet {
      */
     private void showCarList(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            request.setAttribute("customers", getCarManager().getAllCars());
+            request.setAttribute("cars", getCarManager().getAllCars());
             request.getRequestDispatcher(LIST_JSP).forward(request, response);
         } catch (Exception e) {
             log.error("Cannot show customer", e);
