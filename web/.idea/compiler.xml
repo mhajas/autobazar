@@ -24,6 +24,8 @@
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
         <module name="car_web" />
+        <module name="database" />
+        <module name="web" />
       </profile>
     </annotationProcessing>
   </component>

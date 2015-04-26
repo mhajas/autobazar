@@ -2,8 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/car_web.iml" filepath="$PROJECT_DIR$/car_web.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../database/database.iml" filepath="$PROJECT_DIR$/../database/database.iml" />
       <module fileurl="file://$PROJECT_DIR$/../../autobazar_database/database/database.iml" filepath="$PROJECT_DIR$/../../autobazar_database/database/database.iml" />
+      <module fileurl="file://$PROJECT_DIR$/web.iml" filepath="$PROJECT_DIR$/web.iml" />
     </modules>
   </component>
 </project>

@@ -8,5 +8,13 @@
     <artifactId>car_database</artifactId>
     <version>1.0-SNAPSHOT</version>
 
+    <dependencies>
+        <dependency>
+            <groupId>PB138.project</groupId>
+            <artifactId>database</artifactId>
+            <version>1.0</version>
+        </dependency>
+    </dependencies>
+
 
 </project>
