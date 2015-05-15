@@ -27,31 +27,7 @@ public class SpringConfig {
     public Collection dataSource(){
         Collection collection;
         try {
-            Class c = Class.forName(DRIVER);
-            Database database = (Database) c.newInstance();
-            database.setProperty("create-database", "true");
-            DatabaseManager.registerDatabase(database);
-            Collection parent = DatabaseManager.getCollection(PREFIX,"admin","test123");
-            CollectionManagementService mgt = (CollectionManagementService) parent.getService("CollectionManagementService", "1.0");
-            mgt.createCollection("cars");
-            parent.close();
-            collection = DatabaseManager.getCollection(PREFIX + "cars", "admin", "test123");
-
-            XMLResource resource = (XMLResource)collection.createResource("cars.xml", "XMLResource");
-            resource.setContent("<cars><car id=\"1\">" +
-                    "        <manufacturer>Ferrari</manufacturer>" +
-                    "        <km>80000</km>" +
-                    "        <price>150000</price>" +
-                    "        <color>blue</color>" +
-                    "        <description>OK stav</description>" +
-                    "    </car></cars>");
-            collection.storeResource(resource);
-
-            resource = (XMLResource)collection.createResource("data.xml", "XMLResource");
-            resource.setContent("<data><car-next-id>1</car-next-id></data>");
-            collection.storeResource(resource);
-
-
+            collection = DBUtils.loadOrCreateCarCollection();
         } catch (IllegalAccessException | InstantiationException | ClassNotFoundException | XMLDBException e) {
             throw new DBException("Error while getting collection from DB",e);
         }

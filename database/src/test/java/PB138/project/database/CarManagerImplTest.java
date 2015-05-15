@@ -8,6 +8,8 @@ import org.xmldb.api.base.Collection;
 import org.xmldb.api.modules.CollectionManagementService;
 import org.xmldb.api.modules.XMLResource;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.*;
 
@@ -19,44 +21,15 @@ public class CarManagerImplTest {
 
     private Collection collection;
 
-    private static final String DRIVER = "org.exist.xmldb.DatabaseImpl";
-    private static final String PREFIX = "xmldb:exist://localhost:8080/exist/xmlrpc/db/";
     @Before
     public void setUp() throws Exception {
-        try {
-            Class c = Class.forName(DRIVER);
-            Database database = (Database) c.newInstance();
-            database.setProperty("create-database", "true");
-            DatabaseManager.registerDatabase(database);
-            Collection parent = DatabaseManager.getCollection(PREFIX,"admin","test123");
-            CollectionManagementService mgt = (CollectionManagementService) parent.getService("CollectionManagementService", "1.0");
-            mgt.createCollection("cars");
-            parent.close();
-            collection = DatabaseManager.getCollection(PREFIX + "cars", "admin", "test123");
-
-            XMLResource resource = (XMLResource)collection.createResource("cars.xml", "XMLResource");
-            resource.setContent("<cars></cars>");
-            collection.storeResource(resource);
-
-            resource = (XMLResource)collection.createResource("data.xml", "XMLResource");
-            resource.setContent("<data><car-next-id>1</car-next-id></data>");
-            collection.storeResource(resource);
-
-
-        } catch (XMLDBException e) {
-            System.err.println("XML:DB Exception occurred " + e.errorCode + " " + e.getMessage());
-        }
-
+        collection = DBUtils.loadOrCreateCarCollection();
         manager = new CarManagerImpl(collection);
     }
 
     @After
     public void tearDown() throws Exception {
-        Collection parent = DatabaseManager.getCollection(PREFIX,"admin","test123");
-        CollectionManagementService mgt = (CollectionManagementService) parent.getService("CollectionManagementService", "1.0");
-
-        mgt.removeCollection(PREFIX + "cars");
-        parent.close();
+        DBUtils.dropCarDatabase();
         collection.close();
     }
 
@@ -271,13 +244,13 @@ public class CarManagerImplTest {
             manager.createCar(testCar3);
 
             List<Car> expected = Arrays.asList(testCar);
-            List<Car> actual = new ArrayList<>(manager.getCarsByManufacturer("red"));
+            List<Car> actual = new ArrayList<>(manager.getCarsByColor("red"));
             assertEquals(1, actual.size());
             assertEquals(expected, actual);
             assertDeepEquals(expected, actual);
 
             expected = Arrays.asList(testCar2,testCar3);
-            actual = new ArrayList<>(manager.getCarsByManufacturer("blue"));
+            actual = new ArrayList<>(manager.getCarsByColor("blue"));
             assertEquals(2, actual.size());
 
             assertNotEquals(actual.get(0), actual.get(1));
@@ -322,7 +295,7 @@ public class CarManagerImplTest {
             assertEquals(expectedList, actual);
             assertDeepEquals(expectedList, actual);
 
-            expectedList = Arrays.asList(testCar2,testCar3);
+            expectedList = Arrays.asList(testCar,testCar2);
             actual = new ArrayList<>(manager.getCarsByKmLessThan(85000));
             assertEquals(2, actual.size());
 
@@ -356,7 +329,7 @@ public class CarManagerImplTest {
             manager.createCar(testCar3);
 
             List<Car> actual = new ArrayList<>(manager.getCarsByKmMoreThan(85000));
-            List<Car> expectedList = Arrays.asList(testCar);
+            List<Car> expectedList = Arrays.asList(testCar3);
             assertEquals(1, actual.size());
             assertEquals(expectedList, actual);
             assertDeepEquals(expectedList, actual);
@@ -560,7 +533,7 @@ public class CarManagerImplTest {
         try {
             manager.deleteCar(null);
             fail();
-        } catch (IllegalArgumentException ex) {
+        } catch (CarException ex) {
             //OK
         }
 
@@ -568,7 +541,7 @@ public class CarManagerImplTest {
             testCar.setId(null);
             manager.deleteCar(null);
             fail();
-        } catch (IllegalArgumentException ex) {
+        } catch (CarException ex) {
             //OK
         }
 
@@ -576,7 +549,7 @@ public class CarManagerImplTest {
             testCar.setId(1l);
             manager.deleteCar(null);
             fail();
-        } catch (IllegalArgumentException ex) {
+        } catch (CarException ex) {
             //OK
         }
     }
