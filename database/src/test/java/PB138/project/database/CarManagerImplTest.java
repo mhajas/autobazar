@@ -213,30 +213,223 @@ public class CarManagerImplTest {
 
     }
 
-        /*@Test
-        public void testGetCarsByManufacturer() throws Exception {
+    @Test
+    public void testGetCarsByManufacturer() throws Exception {
+        Car testCar = new Car("Ferrari", 180000, new BigDecimal("1500000"), "red", "NOK stav");
+        Car testCar2 = new Car("Honda", 80000, new BigDecimal("150000"), "blue", "OK stav");
+        Car testCar3 = new Car("Honda", 30000, new BigDecimal("900000"), "white", "Nove");
 
+        manager.createCar(testCar);
+        manager.createCar(testCar2);
+        manager.createCar(testCar3);
+
+        List<Car> expected = Arrays.asList(testCar);
+        List<Car> actual = new ArrayList<>(manager.getCarsByManufacturer("Ferrari"));
+        assertEquals(1, actual.size());
+        assertEquals(expected, actual);
+        assertDeepEquals(expected, actual);
+
+        expected = Arrays.asList(testCar2,testCar3);
+        actual = new ArrayList<>(manager.getCarsByManufacturer("Honda"));
+        assertEquals(2, actual.size());
+
+        assertNotEquals(actual.get(0), actual.get(1));
+        assertDeepNotEquals(actual.get(0), actual.get(1));
+
+        Collections.sort(actual, idComparator);
+        Collections.sort(expected, idComparator);
+
+        assertEquals(expected, actual);
+        assertDeepEquals(expected, actual);
+    }
+
+    @Test
+    public void testGetCarsByManufacturerWithWrongArguments() throws Exception{
+        try {
+            manager.getCarsByManufacturer(null);
+            fail();
+        } catch (IllegalArgumentException ex) {
+            //OK
         }
+
+        try {
+            manager.getCarsByManufacturer("");
+            fail();
+        } catch (IllegalArgumentException ex) {
+            //OK
+        }
+    }
 
         @Test
         public void testGetCarsByColor() throws Exception {
+            Car testCar = new Car("Ferrari", 180000, new BigDecimal("1500000"), "red", "NOK stav");
+            Car testCar2 = new Car("Honda", 80000, new BigDecimal("150000"), "blue", "OK stav");
+            Car testCar3 = new Car("Honda", 30000, new BigDecimal("900000"), "blue", "Nove");
 
+            manager.createCar(testCar);
+            manager.createCar(testCar2);
+            manager.createCar(testCar3);
+
+            List<Car> expected = Arrays.asList(testCar);
+            List<Car> actual = new ArrayList<>(manager.getCarsByManufacturer("red"));
+            assertEquals(1, actual.size());
+            assertEquals(expected, actual);
+            assertDeepEquals(expected, actual);
+
+            expected = Arrays.asList(testCar2,testCar3);
+            actual = new ArrayList<>(manager.getCarsByManufacturer("blue"));
+            assertEquals(2, actual.size());
+
+            assertNotEquals(actual.get(0), actual.get(1));
+            assertDeepNotEquals(actual.get(0), actual.get(1));
+
+            Collections.sort(actual, idComparator);
+            Collections.sort(expected, idComparator);
+
+            assertEquals(expected, actual);
+            assertDeepEquals(expected, actual);
+        }
+
+        @Test
+        public void testGetCarsByColorWithWrongArguments() throws Exception{
+            try {
+                manager.getCarsByColor(null);
+                fail();
+            } catch (IllegalArgumentException ex) {
+                //OK
+            }
+
+            try {
+                manager.getCarsByColor("");
+                fail();
+            } catch (IllegalArgumentException ex) {
+                //OK
+            }
         }
 
         @Test
         public void testGetCarsByKmLessThan() throws Exception {
+            Car testCar = new Car("Ferrari", 30000, new BigDecimal("1500000"), "red", "NOK stav");
+            Car testCar2 = new Car("Honda", 80000, new BigDecimal("150000"), "blue", "OK stav");
+            Car testCar3 = new Car("Honda", 90000, new BigDecimal("900000"), "blue", "Nove");
+            manager.createCar(testCar);
+            manager.createCar(testCar2);
+            manager.createCar(testCar3);
 
+            List<Car> actual = new ArrayList<>(manager.getCarsByKmLessThan(40000));
+            List<Car> expectedList = Arrays.asList(testCar);
+            assertEquals(1, actual.size());
+            assertEquals(expectedList, actual);
+            assertDeepEquals(expectedList, actual);
+
+            expectedList = Arrays.asList(testCar2,testCar3);
+            actual = new ArrayList<>(manager.getCarsByKmLessThan(85000));
+            assertEquals(2, actual.size());
+
+            assertNotEquals(actual.get(0), actual.get(1));
+            assertDeepNotEquals(actual.get(0), actual.get(1));
+
+            Collections.sort(expectedList, idComparator);
+            Collections.sort(actual, idComparator);
+
+            assertEquals(expectedList, actual);
+            assertDeepEquals(expectedList, actual);
+        }
+
+        @Test
+        public void testGetCarsByKmLessThanWithWrongArguments() throws Exception{
+            try {
+                manager.getCarsByKmLessThan(-1);
+                fail();
+            } catch (IllegalArgumentException ex) {
+                //OK
+            }
         }
 
         @Test
         public void testGetCarsByKmMoreThan() throws Exception {
+            Car testCar = new Car("Ferrari", 30000, new BigDecimal("1500000"), "red", "NOK stav");
+            Car testCar2 = new Car("Honda", 80000, new BigDecimal("150000"), "blue", "OK stav");
+            Car testCar3 = new Car("Honda", 90000, new BigDecimal("900000"), "blue", "Nove");
+            manager.createCar(testCar);
+            manager.createCar(testCar2);
+            manager.createCar(testCar3);
 
+            List<Car> actual = new ArrayList<>(manager.getCarsByKmMoreThan(85000));
+            List<Car> expectedList = Arrays.asList(testCar);
+            assertEquals(1, actual.size());
+            assertEquals(expectedList, actual);
+            assertDeepEquals(expectedList, actual);
+
+            expectedList = Arrays.asList(testCar2,testCar3);
+            actual = new ArrayList<>(manager.getCarsByKmMoreThan(35000));
+            assertEquals(2, actual.size());
+
+            assertNotEquals(actual.get(0), actual.get(1));
+            assertDeepNotEquals(actual.get(0), actual.get(1));
+
+            Collections.sort(expectedList, idComparator);
+            Collections.sort(actual, idComparator);
+
+            assertEquals(expectedList, actual);
+            assertDeepEquals(expectedList, actual);
         }
 
-        @Test
-        public void testGetCarsByKm() throws Exception {
+    @Test
+    public void testGetCarsByKmMoreThanWithWrongArguments() throws Exception{
+        try {
+            manager.getCarsByKmMoreThan(-10);
+            fail();
+        } catch (IllegalArgumentException ex) {
+            //OK
+        }
+    }
 
-        }*/
+    @Test
+    public void testGetCarsByKm() throws Exception {
+        Car testCar = new Car("Ferrari", 180000, new BigDecimal("1500000"), "red", "NOK stav");
+        Car testCar2 = new Car("Honda", 80000, new BigDecimal("150000"), "blue", "OK stav");
+        Car testCar3 = new Car("Honda", 80000, new BigDecimal("900000"), "blue", "Nove");
+        manager.createCar(testCar);
+        manager.createCar(testCar2);
+        manager.createCar(testCar3);
+
+        List<Car> actual = new ArrayList<>(manager.getCarsByKm(100000, 1000000000));
+        List<Car> expectedList = Arrays.asList(testCar);
+        assertEquals(1, actual.size());
+        assertEquals(expectedList, actual);
+        assertDeepEquals(expectedList, actual);
+
+        expectedList = Arrays.asList(testCar2,testCar3);
+        actual = new ArrayList<>(manager.getCarsByKm(0, 99999));
+        assertEquals(2, actual.size());
+
+        assertNotEquals(actual.get(0), actual.get(1));
+        assertDeepNotEquals(actual.get(0), actual.get(1));
+
+        Collections.sort(expectedList, idComparator);
+        Collections.sort(actual, idComparator);
+
+        assertEquals(expectedList, actual);
+        assertDeepEquals(expectedList, actual);
+    }
+
+    @Test
+    public void testGetCarsByKmWithWrongArguments() throws Exception{
+        try {
+            manager.getCarsByKm(-10, 10);
+            fail();
+        } catch (IllegalArgumentException ex) {
+            //OK
+        }
+
+        try {
+            manager.getCarsByKm(10, -10);
+            fail();
+        } catch (IllegalArgumentException ex) {
+            //OK
+        }
+    }
 
     @Test
     public void testUpdateCar() throws Exception {
@@ -346,10 +539,47 @@ public class CarManagerImplTest {
     }
 
 
-       /* @Test
+        @Test
         public void testDeleteCar() throws Exception {
+            Car testCar = new Car("Ferrari", 180000, new BigDecimal("1500000"), "red", "NOK stav");
+            Car testCar2 = new Car("Honda", 80000, new BigDecimal("150000"), "blue", "OK stav");
+            manager.createCar(testCar);
+            manager.createCar(testCar2);
 
-        }*/
+            manager.deleteCar(testCar);
+
+            assertNull(manager.getCarById(testCar.getId()));
+            assertNotNull(manager.getCarById(testCar2.getId()));
+        }
+
+    @Test
+    public void testDeleteCarWithWrongArgument() throws Exception{
+        Car testCar = new Car("Ferrari", 180000, new BigDecimal("1500000"), "red", "NOK stav");
+        manager.createCar(testCar);
+
+        try {
+            manager.deleteCar(null);
+            fail();
+        } catch (IllegalArgumentException ex) {
+            //OK
+        }
+
+        try {
+            testCar.setId(null);
+            manager.deleteCar(null);
+            fail();
+        } catch (IllegalArgumentException ex) {
+            //OK
+        }
+
+        try {
+            testCar.setId(1l);
+            manager.deleteCar(null);
+            fail();
+        } catch (IllegalArgumentException ex) {
+            //OK
+        }
+    }
 
     private void assertDeepNotEquals(Car expected, Car actual) {
         boolean res = true;
