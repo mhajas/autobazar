@@ -20,9 +20,6 @@ import org.xmldb.api.modules.XMLResource;
 @Configuration  //je to konfigurace pro Spring
 public class SpringConfig {
 
-    private static final String DRIVER = "org.exist.xmldb.DatabaseImpl";
-    private static final String PREFIX = "xmldb:exist://localhost:8080/exist/xmlrpc/db/";
-
     @Bean
     public Collection dataSource(){
         Collection collection;

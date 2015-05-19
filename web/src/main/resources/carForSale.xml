@@ -1,0 +1,9 @@
+<cars>
+    <car id="1">
+		<manufacturer>Ferrari</manufacturer>
+		<km>80000</km>
+		<price>150000</price>
+		<color>red</color>
+		<description>OK stav</description>
+    </car>
+</cars>    
