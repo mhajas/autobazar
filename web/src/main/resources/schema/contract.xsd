@@ -1,0 +1,45 @@
+<xs:schema version="1.0"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           elementFormDefault="qualified">
+    
+    <xs:element name="contract" type="contract_type" />
+    
+    <xs:complexType name="contract_type">
+        <xs:sequence>
+            <xs:element name="car" minOccurs="1" maxOccurs="1" type="car_type"/>  
+            <xs:element name="customer" minOccurs="1" maxOccurs="1" type="customer_type"/>                
+        </xs:sequence>            
+    </xs:complexType>
+    
+    <xs:complexType name="car_type">
+        <xs:sequence>
+            <xs:element name="manufacturer" minOccurs="0" type="xs:string" />
+            <xs:element name="km" minOccurs="0" type="xs:int"/>
+            <xs:element name="price" minOccurs="0" type="price_type"/>
+            <xs:element name="color" minOccurs="0" type="xs:string"/>
+            <xs:element name="description" minOccurs="0" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    
+    <xs:simpleType name="price_type">
+        <xs:restriction base = "xs:string">
+            <xs:pattern value="[0-9]+(\.[0-9][0-9])?"/>
+        </xs:restriction>
+    </xs:simpleType>
+    
+    <xs:complexType name="customer_type">
+        <xs:sequence>
+            <xs:element name="name" minOccurs="0" type="xs:string" />
+            <xs:element name="adress" minOccurs="0" type="xs:string"/>
+            <xs:element name="dateOfBirth" minOccurs="0" type="dateOfBirth_type"/>          
+        </xs:sequence>
+    </xs:complexType>
+    
+    <xs:simpleType name="dateOfBirth_type">
+        <xs:restriction base = "xs:string">
+            <xs:pattern value="[0-9][0-9]+\.[0-9][0-9]+\.[0-9][0-9][0-9][0-9]"/>
+        </xs:restriction>
+    </xs:simpleType>
+    
+    
+</xs:schema>
