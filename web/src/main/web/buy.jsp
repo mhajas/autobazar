@@ -1,5 +1,7 @@
 <%@page contentType="text/html;charset=utf-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -18,6 +20,7 @@
 
     <!-- Custom CSS -->
     <link href="css/heroic-features.css" rel="stylesheet">
+
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -61,42 +64,54 @@
 <!-- Page Content -->
 <div class="container">
 
-    <!-- Jumbotron Header -->
-    <header class="jumbotron hero-spacer">
-        <h1>Vitajte v bazare u zeleneho kozla!</h1>
-    </header>
-    <hr>
     <!-- Title -->
     <div class="row">
         <div class="col-lg-12">
-            <h3>Aktualna ponuka</h3>
+            <h3>Toto auto chcete kupit</h3>
         </div>
     </div>
     <!-- /.row -->
 
-    <!-- Page Features --> //TODO
+    <!-- Page Features -->
     <div class="row text-center">
 
-        <c:forEach items="${cars}" var="car">
-            <div class="col-md-3 col-sm-6 hero-feature">
-                <div class="thumbnail">
-                    <img src="buyIcon.jpg" alt="" height="80" width="80">
-                    <div class="caption">
-                        <h3><c:out value="${car.manufacturer}"/></h3>
-                        <p>KM: <c:out value="${car.km}"/></p>
-                        <p>Farba: <c:out value="${car.color}"/></p>
-                        <p>Popis: <c:out value="${car.description}"/></p>
-                        <p>Cena: <c:out value="${car.price}"/></p>
-                        <p>
-
-                        <a href="${pageContext.request.contextPath}/buy?id=${car.id}" class="btn btn-primary">Kupit!</a>
-                        </p>
-                    </div>
+        <div class="col-md-3 col-sm-6 hero-feature">
+            <div class="thumbnail">
+                <img src="buyIcon.jpg" alt="" height="80" width="80">
+                <div class="caption">
+                    <h3><c:out value="${car.manufacturer}"/></h3>
+                    <p>KM: <c:out value="${car.km}"/></p>
+                    <p>Farba: <c:out value="${car.color}"/></p>
+                    <p>Popis: <c:out value="${car.description}"/></p>
+                    <p>Cena: <c:out value="${car.price}"/></p>
                 </div>
             </div>
-        </c:forEach>
+        </div>
 
+        <div class="col-md-3 col-sm-6 hero-feature">
+            <div class="thumbnail">
+                <div class="caption">
+                    <h3>Zadajte svoje osobne udaje</h3>
+                    <form action="${pageContext.request.contextPath}/buy/sell" method="post">
+                        <p>Meno a priezvisko:</p>
+                        <input type="text" name="name" value="<c:out value="${name}"/>"/>
+                        <p>Adresa:<p>
+                        <input type="text" name="adress" value="<c:out value="${adress}"/>"/>
+
+                        <p>Datum narodenia:</p>
+                        <fmt:formatDate value="" type="BOTH" var="parsedBornDate" pattern="yyyy-MM-dd" />
+                        <c:set var="string2" value="${fn:replace(parsedBornDate, ' ', 'T')}" />
+                        <td><input name="born" type="date" step="1" value="${string2}"/></td>
+
+                        <input type="hidden" name="carId" class="btn btn-primary" value="${car.id}" />
+                        <input type="Submit" class="btn btn-primary" value="Kupit" />
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
+    <a href="/" class="btn btn-primary">Zrusit!</a>
+
     <!-- /.row -->
 
     <hr>
@@ -108,11 +123,7 @@
                 <p>Copyright &copy; Your Website 2014</p>
             </div>
         </div>
-        <div class="row">
-            <div class="col-lg-12">
-                <a href="/cars" class="btn btn-primary">Spravovat!</a>
-            </div>
-        </div>
+
     </footer>
 
 </div>

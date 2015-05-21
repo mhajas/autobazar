@@ -14,9 +14,10 @@
     <!-- TODO customize transformation rules 
          syntax recommendation http://www.w3.org/TR/xslt 
     -->
-    <xsl:template match="/cars">
+    <xsl:template match="/contract">
         <html>
             <head>
+                <meta charset="UTF-8"/>
                 <title>Smlouva o koupi motorového vozidla</title>
                 <link rel="stylesheet" type="text/css" href="css.css" />
             </head>

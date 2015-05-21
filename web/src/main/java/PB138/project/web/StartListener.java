@@ -25,6 +25,7 @@ public class StartListener implements ServletContextListener {
 
     @Override
     public void contextInitialized(ServletContextEvent ev) {
+
         log.info("aplikace inicializována");
         ServletContext servletContext = ev.getServletContext();
         ApplicationContext springContext = new AnnotationConfigApplicationContext(SpringConfig.class);

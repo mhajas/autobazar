@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.text.ParseException;
 
 /**
  * Servlet for managing books.
@@ -45,7 +46,14 @@ public class CarServlet extends HttpServlet {
                     showCarList(request, response);
                     return;
                 }
-                BigDecimal price = new BigDecimal(request.getParameter("price").replaceAll(",", "")); //TODO dorobit
+                BigDecimal price;
+                try {
+                    price = new BigDecimal(request.getParameter("price").replaceAll(",", "")); //TODO dorobit
+                }catch(NumberFormatException ex){
+                    request.setAttribute("chyba", "Bad price format");
+                    showCarList(request, response);
+                    return;
+                }
                 String color = request.getParameter("color");
                 String description = request.getParameter("description");
                 if (manufacturer == null
@@ -138,9 +146,6 @@ public class CarServlet extends HttpServlet {
                     response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ex.getMessage());
                     return;
                 }
-            case "/buy":
-                //TODO
-                return;
             default:
                 log.error("Unknown action " + action);
                 response.sendError(HttpServletResponse.SC_NOT_FOUND, "Unknown action " + action);

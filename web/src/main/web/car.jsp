@@ -28,8 +28,6 @@
             <td align="left" width="5%"><form method="post" action="${pageContext.request.contextPath}/cars/delete?id=${car.id}"
                                               style="margin-bottom: 0;"><input type="submit" value="Smazat"></form></td>
 
-            <td align="left" width="5%"><form method="post" action="${pageContext.request.contextPath}/cars/buy?id=${car.id}"
-                                              style="margin-bottom: 0;"><input type="submit" value="Kupit"></form></td>
         </tr>
     </c:forEach>
 </table>
@@ -74,7 +72,7 @@
 
 
     <c:otherwise>
-        <h2>Novy customer</h2>
+        <h2>Nove auto</h2>
         <form action="${pageContext.request.contextPath}/cars/add" method="post">
             <table>
                 <tr>
@@ -103,7 +101,7 @@
     </c:otherwise>
 
 </c:choose>
-
+<a href="/"><input type="Submit" value="Spat" /></a>
 
 </body>
 </html>
