@@ -20,7 +20,12 @@ public class SearchEngine {
             throw new IllegalArgumentException("condition is null or empty");
         }
 
-        condition.replace("{value}", "argument" + condition.length());
+        if(condition.substring(0, 2).equals("km")){
+            condition = condition.replace("{value}", "number($argument" + conditions.size() + ")");
+        }else {
+            condition = condition.replace("{value}", "$argument" + conditions.size());
+        }
+
 
         conditions.add(condition);
         arguments.add(argument);
@@ -36,6 +41,7 @@ public class SearchEngine {
             }
 
             result += condition;
+            start = false;
         }
 
         return result;
@@ -43,5 +49,13 @@ public class SearchEngine {
 
     public String[] getArgumentsArray(){
         return arguments.toArray(new String[arguments.size()]);
+    }
+
+    @Override
+    public String toString() {
+        return "SearchEngine{" +
+                "conditions=" + conditions +
+                ", arguments=" + arguments +
+                '}';
     }
 }

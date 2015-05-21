@@ -575,27 +575,27 @@ public class CarManagerImplTest {
         assertEquals(expectedList, actual);
         assertDeepEquals(expectedList, actual);
 
-
+        a = new SearchEngine();
         a.addCondition("manufacturer={value}","Honda")
-                .addCondition("km={value}", String.valueOf(90000))
-                .addCondition("price={value}", String.valueOf("900000"))
-                .addCondition("color={value}", "blue")
-                .addCondition("description={value}", "Nove");
+            .addCondition("km={value}", String.valueOf(90000))
+            .addCondition("price={value}", "900000")
+            .addCondition("color={value}", "blue")
+            .addCondition("description={value}", "Nove");
         actual = new ArrayList<>(manager.getCarsBySearchEngine(a));
         expectedList = Arrays.asList(testCar3);
 
         assertEquals(1, actual.size());
         assertEquals(expectedList, actual);
         assertDeepEquals(expectedList, actual);
-        assertNotEquals(actual.get(0), actual.get(1));
-        assertDeepNotEquals(actual.get(0), actual.get(1));
 
+        a = new SearchEngine();
         a.addCondition("manufacturer={value}","Honda")
-                .addCondition("color={value}","blue");
+            .addCondition("color={value}","blue");
+
         actual = new ArrayList<>(manager.getCarsBySearchEngine(a));
         expectedList = Arrays.asList(testCar2,testCar3);
 
-        assertEquals(1, actual.size());
+        assertEquals(2, actual.size());
         assertEquals(expectedList, actual);
         assertDeepEquals(expectedList, actual);
 

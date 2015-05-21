@@ -234,7 +234,21 @@ public class CarManagerImpl implements CarManager {
 
     @Override
     public Collection<Car> getCarsBySearchEngine(SearchEngine searchEngine) {
-        throw new UnsupportedOperationException("not implemented yet!");
+        if(searchEngine == null){
+            throw new IllegalArgumentException("search engine is null");
+        }
+
+        if(searchEngine.getSerializedConditions().isEmpty()){
+            throw new IllegalArgumentException("search engine is empty");
+        }
+
+        Collection<Car> resultList;
+        try {
+            resultList = DBUtils.selectCarsFromDBWhere(collection, searchEngine.getSerializedConditions(), searchEngine.getArgumentsArray());
+        }catch(XMLDBException ex){
+            throw new DBException("Error while getting cars by " + searchEngine, ex);
+        }
+        return resultList;
     }
 
     @Override
