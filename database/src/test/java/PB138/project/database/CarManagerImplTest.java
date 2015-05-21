@@ -554,6 +554,53 @@ public class CarManagerImplTest {
         }
     }
 
+    @Test
+    public void testSearchEngine()throws Exception{
+        Car testCar = new Car("Ferrari", 30000, new BigDecimal("1500000"), "red", "NOK stav");
+        Car testCar2 = new Car("Honda", 50000, new BigDecimal("150000"), "blue", "OK stav");
+        Car testCar3 = new Car("Honda", 90000, new BigDecimal("900000"), "blue", "Nove");
+        Car testCar4 = new Car("Porshe", 900000, new BigDecimal("900000"), "white", "Nove");
+
+        manager.createCar(testCar);
+        manager.createCar(testCar2);
+        manager.createCar(testCar3);
+        manager.createCar(testCar4);
+
+        SearchEngine a=new SearchEngine();
+        a.addCondition("km<{value}", String.valueOf(50000));
+        List<Car> actual = new ArrayList<>(manager.getCarsBySearchEngine(a));
+        List<Car> expectedList = Arrays.asList(testCar);
+
+        assertEquals(1, actual.size());
+        assertEquals(expectedList, actual);
+        assertDeepEquals(expectedList, actual);
+
+
+        a.addCondition("manufacturer={value}","Honda")
+                .addCondition("km={value}", String.valueOf(90000))
+                .addCondition("price={value}", String.valueOf("900000"))
+                .addCondition("color={value}", "blue")
+                .addCondition("description={value}", "Nove");
+        actual = new ArrayList<>(manager.getCarsBySearchEngine(a));
+        expectedList = Arrays.asList(testCar3);
+
+        assertEquals(1, actual.size());
+        assertEquals(expectedList, actual);
+        assertDeepEquals(expectedList, actual);
+        assertNotEquals(actual.get(0), actual.get(1));
+        assertDeepNotEquals(actual.get(0), actual.get(1));
+
+        a.addCondition("manufacturer={value}","Honda")
+                .addCondition("color={value}","blue");
+        actual = new ArrayList<>(manager.getCarsBySearchEngine(a));
+        expectedList = Arrays.asList(testCar2,testCar3);
+
+        assertEquals(1, actual.size());
+        assertEquals(expectedList, actual);
+        assertDeepEquals(expectedList, actual);
+
+    }
+
     private void assertDeepNotEquals(Car expected, Car actual) {
         boolean res = true;
 
