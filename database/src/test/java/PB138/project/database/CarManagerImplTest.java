@@ -603,55 +603,19 @@ public class CarManagerImplTest {
 
     @Test
     public void testSearchEngineWithWrongArgument()throws Exception{
-        Car testCar = new Car("Honda", 90000, new BigDecimal("900000"), "blue", "Nove");
-        manager.createCar(testCar);
-        SearchEngine a=new SearchEngine();
-
         try {
-            a.addCondition("manufacturer={value}", "null");
-            manager.getCarsBySearchEngine(a);
+            manager.getCarsBySearchEngine(null);
             fail();
-        } catch (CarException ex) {
+        } catch (IllegalArgumentException ex) {
             //OK
         }
 
-        try {
-            a.addCondition("km={value}", null);
-            manager.getCarsBySearchEngine(a);
-            fail();
-        } catch (CarException ex) {
-            //OK
-        }
+        SearchEngine a = new SearchEngine();
 
         try {
-            a.addCondition("price={value}", null);
             manager.getCarsBySearchEngine(a);
             fail();
-        } catch (CarException ex) {
-            //OK
-        }
-
-        try {
-            a.addCondition("color={value}", null);
-            manager.getCarsBySearchEngine(a);
-            fail();
-        } catch (CarException ex) {
-            //OK
-        }
-
-        try {
-            a.addCondition("description={value}", null);
-            manager.getCarsBySearchEngine(a);
-            fail();
-        } catch (CarException ex) {
-            //OK
-        }
-
-        try {
-            SearchEngine b=new SearchEngine();
-            manager.getCarsBySearchEngine(b);
-            fail();
-        } catch (CarException ex) {
+        } catch (IllegalArgumentException ex) {
             //OK
         }
     }
