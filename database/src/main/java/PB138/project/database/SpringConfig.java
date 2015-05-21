@@ -32,7 +32,7 @@ public class SpringConfig {
         return collection;
     }
 
-    @Bean //náš manager, bude obalen řízením transakcí
+    @Bean
     public CarManager carManager() {
         return new CarManagerImpl(dataSource());
     }

@@ -23,7 +23,11 @@ public interface CarManager {
 
     Collection<Car> getCarsByKm(int from, int to);
 
+    Collection<Car> getCarsBySearchEngine(SearchEngine searchEngine);
+
     void updateCar(Car car);
 
     void deleteCar(Car car);
+
+
 }

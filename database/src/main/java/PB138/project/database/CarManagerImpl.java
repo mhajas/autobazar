@@ -7,6 +7,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xmldb.api.base.*;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -229,6 +230,11 @@ public class CarManagerImpl implements CarManager {
             throw new DBException("Error while getting cars less km", ex);
         }
         return resultList;
+    }
+
+    @Override
+    public Collection<Car> getCarsBySearchEngine(SearchEngine searchEngine) {
+        throw new UnsupportedOperationException("not implemented yet!");
     }
 
     @Override
