@@ -19,7 +19,7 @@
             <td align="center"><c:out value="${car.manufacturer}"/></td>
             <td align="center"><c:out value="${car.km}"/></td>
             <td align="center"><c:out value="${car.price}"/></td>
-            <td align="center"><c:out value="${car.color}"/></td>
+            <td style=" background: ${car.color}"></td>
             <td align="center"><c:out value="${car.description}"/></td>
 
             <td align="left" width="5%"><form method="post" action="${pageContext.request.contextPath}/cars/showUpdate?id=${car.id}"
@@ -57,7 +57,7 @@
                 </tr>
                 <tr>
                     <th>Color:</th>
-                    <td><input type="text" name="color" value="<c:out value="${color}"/>"/></td>
+                    <td> <input type="color" name="color" value="<c:out value="${color}"/>"/></td>
                 </tr>
                 <tr>
                     <th>Description:</th>
@@ -89,7 +89,7 @@
                 </tr>
                 <tr>
                     <th>Color:</th>
-                    <td><input type="text" name="color" value="<c:out value="${color}"/>"/></td>
+                    <td> <input type="color" name="color" value="<c:out value="${color}"/>"/></td>
                 </tr>
                 <tr>
                     <th>Description:</th>
