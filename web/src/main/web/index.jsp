@@ -80,7 +80,7 @@
                         <p>Znacka:</p>
                         <input type="text" name="manufacturer" value="<c:out value="${manufacturer}"/>"/>
                         <p>Farba:</p>
-                        <input type="text" name="color" value="<c:out value="${color}"/>"/>
+                        <input type="color" name="color" value="<c:out value="${color}"/>"/>
                     </div>
 
                     <div class="form-group ">
@@ -125,17 +125,19 @@
             <div class="col-md-3 col-sm-6 hero-feature">
                 <div class="thumbnail">
                     <img src="buyIcon.jpg" alt="" height="80" width="80">
-                    <div class="caption">
+                    <p class="caption">
                         <h3><c:out value="${car.manufacturer}"/></h3>
                         <p>KM: <c:out value="${car.km}"/></p>
-                        <p>Farba: <c:out value="${car.color}"/></p>
+
+                        <p style="display: inline-block">Farba:
+                            <div style="margin: 0 5px; display: inline-block;
+                            background: ${car.color}; height: 11px; width: 100px; display: inline-block; border: 1px solid transparent;
+                            border-radius: 4px;"> </div>
+                        </p>
                         <p>Popis: <c:out value="${car.description}"/></p>
                         <p>Cena: <c:out value="${car.price}"/></p>
-                        <p>
-
                         <a href="${pageContext.request.contextPath}/buy?id=${car.id}" class="btn btn-primary">Kupit!</a>
-                        </p>
-                    </div>
+                    </p>
                 </div>
             </div>
         </c:forEach>

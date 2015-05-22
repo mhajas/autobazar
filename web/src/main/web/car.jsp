@@ -57,7 +57,7 @@
                 </tr>
                 <tr>
                     <th>Color:</th>
-                    <td><input type="text" name="color" value="<c:out value="${color}"/>"/></td>
+                    <td> <input type="color" name="color" value="<c:out value="${color}"/>"/></td>
                 </tr>
                 <tr>
                     <th>Description:</th>
@@ -89,7 +89,7 @@
                 </tr>
                 <tr>
                     <th>Color:</th>
-                    <td><input type="text" name="color" value="<c:out value="${color}"/>"/></td>
+                    <td> <input type="color" name="color" value="<c:out value="${color}"/>"/></td>
                 </tr>
                 <tr>
                     <th>Description:</th>
