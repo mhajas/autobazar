@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<article xmlns="http://docbook.org/ns/docbook" version="5.0"
+    xmlns:xlink="http://www.w3.org/1999/xlink">
+  <info>
+    <title>Návrh kupní smlouvy a XSLT transformace</title>
+
+    <author>
+      <firstname>Klára</firstname>
+
+      <surname>Czyžová</surname>
+    </author>
+  </info>
+
+<sect1>
+    <title>Úvod</title>
+
+    <para>Má vlastní úcast na projektu byla omezena programátorskými
+    schopnostmi, jelikož jako studentka Ceského jazyka se specializací
+    pocítacová lingvistika nejsem primárne zamerena na znalost programovacích
+    jazyku.</para>
+</sect1>
+
+<sect1>
+    <title>Práce na projektu</title>
+
+    <para>Mým úkolem byla XSLT transformace a sestavení kupní smlouvy. Tuto
+    jsem vytvorila na základe nekolika volne dostupných vzorku kupních smluv a
+    za pomocí nekolika drobných úprav jsem byla schopná sestavit vyhovující
+    vzhled a samostatné css.</para>
+
+    <para>Dále je mým úkolem zpracovat prezentaci projektu.</para>
+  </sect1>
+
+  <sect1>
+    <title>Záver</title>
+
+    <para>Jsem si plne vedoma svých nedostatku a také toho, že patrím k tem
+    typum clenu týmu, kterí mnohem spíše mohou prospet myšlenkami ci
+    zpracováním až rozširujících cástí projektu. Mám za to, že pokud by byl
+    projekt udržován dlouhodobe, bylo by do nej možné zahrnout i více prvku
+    pracujících s jazykem (napr. prevod císelného údaje z numerického zápisu
+    na slovní).</para>
+  </sect1>
+</article>
