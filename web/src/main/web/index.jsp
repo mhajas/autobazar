@@ -75,33 +75,40 @@
         <button type="button" class="btn btn-info" data-toggle="collapse" style="width: 100%" data-target="#demo">Filter</button>
         <div id="demo" class="collapse out">
             <div class="thumbnail " style="width: 100%">
-                <form role="form">
+                <form role="form" action="${pageContext.request.contextPath}/" method="post">
                     <div class="form-group">
-                        <label for="znacka">Znacka:</label>
-                        <input type="text" class="form-control" id="znacka">
-                        <label for="farba">Farba:</label>
-                        <input type="text" class="form-control" id="farba">
+                        <p>Znacka:</p>
+                        <input type="text" name="manufacturer" value="<c:out value="${manufacturer}"/>"/>
+                        <p>Farba:</p>
+                        <input type="text" name="color" value="<c:out value="${color}"/>"/>
                     </div>
 
                     <div class="form-group ">
-                        <label for="kmDo">Najazdene od :</label>
-                        <input type="text" class="form-control" id="kmDo">
-                        <label for="kmOd">Najazdene do :</label>
-                        <input type="text" class="form-control" id="kmOd">
+                        <p>Najazdene od :</p>
+                        <input type="text" name="kmMore" value="<c:out value="${kmMore}"/>"/>
+                        <p>Najazdene do :</p>
+                        <input type="text" name="kmLess" value="<c:out value="${kmLess}"/>"/>
                     </div>
 
                     <div class="form-group ">
-                        <label for="cenaDo">Cena do :</label>
-                        <input type="text" class="form-control" id="cenaDo">
-                        <label for="cenaOd">Cena od :</label>
-                        <input type="text" class="form-control" id="cenaOd">
+                        <p>Cena od :</p>
+                        <input type="text" name="priceMore" value="<c:out value="${priceMore}"/>"/>
+                        <p>Cena do :</p>
+                        <input type="text" name="priceLess" value="<c:out value="${priceLess}"/>"/>
                     </div>
-                    <a href="/cars" class="btn btn-primary" style="width: 100%">Vyhladat!</a>
+                    <input type="Submit" class="btn btn-primary" style="width: 100%" value="Odoslat" />
                 </form>
+                <a href="${pageContext.request.contextPath}/" class="btn btn-primary">Zrusit filter</a>
             </div>
         </div>
     </div>
 
+
+    <c:if test="${not empty chyba}">
+        <div style="border: solid 1px red; background-color: yellow; padding: 10px">
+            <c:out value="${chyba}"/>
+        </div>
+    </c:if>
 
     <!-- Title -->
     <div class="row">

@@ -17,7 +17,6 @@ public class CarBillTranformation {
         TransformerFactory tf = TransformerFactory.newInstance();
 
         //System.out.println(tf.getClass());
-        System.out.println("ASFADGSD "+path+"WEB-INF\\classes\\xslt\\bill_of_sale.xsl");
         Transformer xsltProc = tf.newTransformer(
                 new StreamSource(new File(path+"WEB-INF\\classes\\xslt\\bill_of_sale.xsl")));
 

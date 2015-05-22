@@ -20,7 +20,7 @@ public class SearchEngine {
             throw new IllegalArgumentException("condition is null or empty");
         }
 
-        if(condition.substring(0, 2).equals("km")){
+        if(condition.substring(0, 2).equals("km") || condition.substring(0,5).equals("price")){
             condition = condition.replace("{value}", "number($argument" + conditions.size() + ")");
         }else {
             condition = condition.replace("{value}", "$argument" + conditions.size());
