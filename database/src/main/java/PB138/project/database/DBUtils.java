@@ -11,6 +11,7 @@ import org.xmldb.api.DatabaseManager;
 import org.xmldb.api.base.*;
 import org.xmldb.api.modules.CollectionManagementService;
 import org.xmldb.api.modules.XMLResource;
+import sun.tools.jar.Main;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -22,11 +23,14 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Created by Michal on 15.5.2015.
  */
 public class DBUtils {
+    private static final Logger log = Logger.getLogger(Main.class.getName());
 
     public static Collection<Car> selectCarsFromDBWhere(org.xmldb.api.base.Collection collection, String condition, String[] arguments) throws XMLDBException{
         List<Car> resultList = new ArrayList<>();
@@ -83,6 +87,7 @@ public class DBUtils {
                 service.declareVariable("description", car.getDescription());
             }
         }catch(XMLDBException ex){
+            log.log(Level.SEVERE, "XMLDBException in DBUtils:"+ex);
             throw new DBException("Error while binding car.", ex);
 
         }
@@ -103,15 +108,19 @@ public class DBUtils {
             if(results.hasMoreResources()) {
                 Long id = Long.parseLong(results.nextResource().getContent().toString());
                 if(results.hasMoreResources()){
+                    log.log(Level.SEVERE, "DBException in DBUtils:data.xml has more car-next-id element");
                     throw new DBException("data.xml has more car-next-id element");
                 }
                 return id;
             }else{
+                log.log(Level.SEVERE, "DBException in DBUtils: Next id does not exist");
                 throw new DBException("Next id does not exist");
             }
         }catch (XMLDBException ex) {
+            log.log(Level.SEVERE, "XMLDBException in DBUtils:"+ex);
             throw new DBException("Error while getting next id", ex);
         }catch (NumberFormatException ex){
+            log.log(Level.SEVERE, "NumberFormatException in DBUtils:"+ex);
             throw new DBException("Error while parsing next id", ex);
         }
     }
@@ -129,8 +138,10 @@ public class DBUtils {
 
             service.execute(compiled);
         }catch (XMLDBException ex) {
+            log.log(Level.SEVERE, "XMLDBException in DBUtils:"+ex);
             throw new DBException("Error while incrementing", ex);
         }catch (NumberFormatException ex){
+            log.log(Level.SEVERE, "NumberFormatException in DBUtils:"+ex);
             throw new DBException("Error while parsing next id", ex);
         }
     }
@@ -151,6 +162,7 @@ public class DBUtils {
 
                 a = parent.getElementsByTagName("manufacturer");
                 if(a.getLength() != 1){
+                    log.log(Level.SEVERE, "CarException in DBUtils: Error while parsing manufacturer");
                     throw new CarException("Error while parsing manufacturer");
                 }
                 Element el = (Element) a.item(0);
@@ -158,17 +170,20 @@ public class DBUtils {
 
                 a = parent.getElementsByTagName("km");
                 if(a.getLength() != 1){
+                    log.log(Level.SEVERE, "CarException in DBUtils: Error while parsing km");
                     throw new CarException("Error while parsing km");
                 }
                 el = (Element) a.item(0);
                 try {
                     car.setKm(Integer.parseInt(el.getTextContent()));
                 }catch(NumberFormatException ex){
+                    log.log(Level.SEVERE, "CarException in DBUtils: Error while parsing integer");
                     throw new CarException("Error while parsing integer");
                 }
 
                 a = parent.getElementsByTagName("price");
                 if(a.getLength() != 1){
+                    log.log(Level.SEVERE, "CarException in DBUtils: Error while parsing price");
                     throw new CarException("Error while parsing price");
                 }
                 el = (Element) a.item(0);
@@ -176,6 +191,7 @@ public class DBUtils {
 
                 a = parent.getElementsByTagName("color");
                 if(a.getLength() != 1){
+                    log.log(Level.SEVERE, "CarException in DBUtils: Error while parsing color");
                     throw new CarException("Error while parsing color");
                 }
                 el = (Element) a.item(0);
@@ -183,6 +199,7 @@ public class DBUtils {
 
                 a = parent.getElementsByTagName("description");
                 if(a.getLength() != 1){
+                    log.log(Level.SEVERE, "CarException in DBUtils: Error while parsing description");
                     throw new CarException("Error while parsing description");
                 }
                 el = (Element) a.item(0);
@@ -192,11 +209,14 @@ public class DBUtils {
                 return car;
 
             } catch (SAXException e) {
+                log.log(Level.SEVERE, "SAXException in DBUtils:"+e);
                 throw new CarException("Error creating document from xml for parsing");
             } catch (IOException e) {
+                log.log(Level.SEVERE, "IOException in DBUtils:"+e);
                 throw new CarException("Error parsing car");
             }
         } catch (ParserConfigurationException ex) {
+            log.log(Level.SEVERE, "ParseFormatException in DBUtils:"+ex);
             throw new CarException("Error while configure parser", ex);
         }
     }

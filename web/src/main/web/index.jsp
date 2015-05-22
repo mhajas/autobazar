@@ -22,7 +22,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -50,10 +49,10 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
                 <li>
-                    <a href="https://goo.gl/maps/wSjY5">Kde nas najdete</a>
+                    <a href="https://goo.gl/maps/wSjY5">Kde nás nájdete</a>
                 </li>
                 <li>
-                    <a href="#">Kontakt</a>
+                    <a href="/cars" >Spravovať</a>
                 </li>
             </ul>
         </div>
@@ -67,41 +66,11 @@
 
     <!-- Jumbotron Header -->
     <header class="jumbotron hero-spacer">
-        <h1>Vitajte v bazare u zeleneho kozla!</h1>
+        <h1>Vitajte v bazáre u zeleného kozla</h1>
     </header>
     <hr>
 
-    <div class="container hero-spacer" style="padding: 0">
-        <button type="button" class="btn btn-info" data-toggle="collapse" style="width: 100%" data-target="#demo">Filter</button>
-        <div id="demo" class="collapse out">
-            <div class="thumbnail " style="width: 100%">
-                <form role="form" action="${pageContext.request.contextPath}/" method="post">
-                    <div class="form-group">
-                        <p>Znacka:</p>
-                        <input type="text" name="manufacturer" value="<c:out value="${manufacturer}"/>"/>
-                        <p>Farba:</p>
-                        <input type="color" name="color" value="<c:out value="${color}"/>"/>
-                    </div>
 
-                    <div class="form-group ">
-                        <p>Najazdene od :</p>
-                        <input type="text" name="kmMore" value="<c:out value="${kmMore}"/>"/>
-                        <p>Najazdene do :</p>
-                        <input type="text" name="kmLess" value="<c:out value="${kmLess}"/>"/>
-                    </div>
-
-                    <div class="form-group ">
-                        <p>Cena od :</p>
-                        <input type="text" name="priceMore" value="<c:out value="${priceMore}"/>"/>
-                        <p>Cena do :</p>
-                        <input type="text" name="priceLess" value="<c:out value="${priceLess}"/>"/>
-                    </div>
-                    <input type="Submit" class="btn btn-primary" style="width: 100%" value="Odoslat" />
-                </form>
-                <a href="${pageContext.request.contextPath}/" class="btn btn-primary">Zrusit filter</a>
-            </div>
-        </div>
-    </div>
 
 
     <c:if test="${not empty chyba}">
@@ -113,14 +82,40 @@
     <!-- Title -->
     <div class="row">
         <div class="col-lg-12">
-            <h3>Aktualna ponuka</h3>
+            <h3>Aktuálna ponuka</h3>
         </div>
     </div>
     <!-- /.row -->
 
     <!-- Page Features -->
     <div class="row text-center">
+        <div class="col-md-3 col-sm-6 hero-feature">
+            <div class="thumbnail">
+                <button type="button" class="btn btn-info" data-toggle="collapse" style="width: 100%" data-target="#demo">Filter</button>
+                <div id="demo" class="collapse in">
+                    <form role="form" action="${pageContext.request.contextPath}/" method="post">
+                        <div class="form-group" style="margin-bottom: 0">
+                            <p class="filter-p">Značka:</p>
+                            <input type="text" name="manufacturer" class="filter-input" value="<c:out value="${manufacturer}"/>"/>
+                            <p class="filter-p">Farba:</p>
+                            <input type="color" name="color" class="filter-input" value="<c:out value="${color}"/>"/>
 
+                            <p class="filter-p">Najazdené od :</p>
+                            <input type="text"  name="kmMore" class="filter-input" value="<c:out value="${kmMore}"/>"/>
+                            <p class="filter-p">Najazdené do :</p>
+                            <input type="text"  name="kmLess" class="filter-input" value="<c:out value="${kmLess}"/>"/>
+
+                            <p class="filter-p">Cena od :</p>
+                            <input type="text" name="priceMore" class="filter-input" value="<c:out value="${priceMore}"/>"/>
+                            <p class="filter-p">Cena do :</p>
+                            <input type="text" name="priceLess" class="filter-input" style="margin-bottom: 4px" value="<c:out value="${priceLess}"/>"/>
+                        </div>
+                        <input type="Submit" class="btn btn-primary" style="width: 49%;padding: 0" value="Odoslať" />
+                        <a href="${pageContext.request.contextPath}/" class="btn btn-primary" style="width: 49%;padding: 0">Zrušiť filter</a>
+                    </form>
+                </div>
+            </div>
+        </div>
         <c:forEach items="${cars}" var="car">
             <div class="col-md-3 col-sm-6 hero-feature">
                 <div class="thumbnail">
@@ -136,7 +131,7 @@
                         </p>
                         <p>Popis: <c:out value="${car.description}"/></p>
                         <p>Cena: <c:out value="${car.price}"/></p>
-                        <a href="${pageContext.request.contextPath}/buy?id=${car.id}" class="btn btn-primary">Kupit!</a>
+                        <a href="${pageContext.request.contextPath}/buy?id=${car.id}" class="btn btn-primary">Kúpiť!</a>
                     </p>
                 </div>
             </div>
@@ -149,16 +144,11 @@
 
     <!-- Footer -->
     <footer>
-        <div class="row">
-            <div class="col-lg-12">
-                <p>Copyright &copy; Your Website 2014</p>
-            </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <p>Projekt PB138</p>
         </div>
-        <div class="row">
-            <div class="col-lg-12">
-                <a href="/cars" class="btn btn-primary">Spravovat!</a>
-            </div>
-        </div>
+    </div>
     </footer>
 
 </div>

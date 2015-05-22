@@ -3,8 +3,7 @@ package PB138.project.web;
 import PB138.project.database.Car;
 import PB138.project.database.CarBillTransformation;
 import PB138.project.database.CarManager;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import sun.tools.jar.Main;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,13 +11,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.transform.TransformerException;
+import java.awt.*;
 import java.io.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.logging.Level;
 
-/**
- * Created by Matej on 21. 5. 2015.
- */
 
 @WebServlet(BuyServlet.URL_MAPPING + "/*")
 public class BuyServlet extends HttpServlet {
@@ -27,7 +25,7 @@ public class BuyServlet extends HttpServlet {
     public static final String URL_MAPPING = "/buy";
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
-    private final static Logger log = LoggerFactory.getLogger(CarServlet.class);
+    private static final java.util.logging.Logger log = java.util.logging.Logger.getLogger(Main.class.getName());
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -46,18 +44,18 @@ public class BuyServlet extends HttpServlet {
                 }catch(TransformerException ex){
 
                 }
-                //getCarManager().deleteCar(getCarManager().getCarById(Long.parseLong(request.getParameter("carId"))));
-                log.debug("buy car {}", request.getParameter("carId"));
+                getCarManager().deleteCar(getCarManager().getCarById(Long.parseLong(request.getParameter("carId"))));
+                log.log(Level.INFO, "Buy car with ID :" + request.getParameter("carId"));
                 request.getRequestDispatcher("/car.html").forward(request, response);
                 return;
             default:
-                log.error("Unknown action " + action);
+                log.log(Level.SEVERE, "Unknown action" + action);
                 response.sendError(HttpServletResponse.SC_NOT_FOUND, "Unknown action " + action);
         }
     }
 
     /**
-     * Gets BookManager from ServletContext, where it was stored by {@link StartListener}.
+     * Gets Car Manager from ServletContext, where it was stored by {@link StartListener}.
      *
      * @return BookManager instance
      */
@@ -65,20 +63,18 @@ public class BuyServlet extends HttpServlet {
         return (CarManager) getServletContext().getAttribute("carManager");
     }
 
-    /**
-     * Stores the list of books to request attribute "books" and forwards to the JSP to display it.
-     */
+
     private void showCarList(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             Long id = Long.parseLong(request.getParameter("id"));
             request.setAttribute("car", getCarManager().getCarById(id));
             request.getRequestDispatcher(LIST_JSP).forward(request, response);
         } catch (Exception e) {
-            log.error("Cannot show car", e);
+            log.log(Level.SEVERE, "Cannot show car" + e);
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage());
         }
     }
-    private void createContract(HttpServletRequest request, HttpServletResponse response, Car car) throws ServletException{
+    private void createContract(HttpServletRequest request, HttpServletResponse response, Car car) throws ServletException {
 
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(getServletContext().getRealPath("\\WEB-INF\\classes\\tmp\\contract.xml")))) {
             bw.write("<contract>");
@@ -98,7 +94,10 @@ public class BuyServlet extends HttpServlet {
             bw.write("</price>");
             bw.newLine();
             bw.write("<color>");
-            bw.write(car.getColor());
+            //bw.write(car.getColor());
+            String color = car.getColor();
+            Color c=hex2Rgb(color);
+            bw.write("[R "+c.getRed()+";G "+c.getGreen()+ ";B "+c.getBlue()+"]");
             bw.write("</color>");
             bw.newLine();
             bw.write("<description>");
@@ -125,13 +124,16 @@ public class BuyServlet extends HttpServlet {
             bw.newLine();
             bw.write("</contract>");
             bw.flush();
-        }
-        catch (ParseException e){
+        } catch (ParseException e) {
             System.out.println("Nepodarilo sa rozparsovat datum");
-        }
-        catch(IOException e)
-        {
+        } catch (IOException e) {
             System.err.println("Do souboru se nepovedlo zapsat.\n");
         }
     }
+        private Color hex2Rgb(String colorStr) {
+            return new Color(
+                    Integer.valueOf(colorStr.substring(1, 3), 16),
+                    Integer.valueOf(colorStr.substring(3, 5), 16),
+                    Integer.valueOf(colorStr.substring(5, 7), 16));
+        }
 }

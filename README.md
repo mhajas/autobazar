@@ -5,6 +5,7 @@ Project for PB138 course
 + Michal Hajas
 + Matej Králik
 + Mário Majerník
++ Klára Czyžová
 
 ## Zadanie
 Cílem projektu je implementovat informační systém pro katalog autobazaru.

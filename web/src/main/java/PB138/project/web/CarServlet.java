@@ -3,8 +3,7 @@ package PB138.project.web;
 import PB138.project.database.Car;
 import PB138.project.database.CarException;
 import PB138.project.database.CarManager;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import sun.tools.jar.Main;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,18 +12,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.text.ParseException;
+import java.util.logging.Level;
 
-/**
- * Servlet for managing books.
- */
+
 @WebServlet(CarServlet.URL_MAPPING + "/*")
 public class CarServlet extends HttpServlet {
 
     private static final String LIST_JSP = "/car.jsp";
     public static final String URL_MAPPING = "/cars";
 
-    private final static Logger log = LoggerFactory.getLogger(CarServlet.class);
+    private static final java.util.logging.Logger log = java.util.logging.Logger.getLogger(Main.class.getName());
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -78,11 +75,11 @@ public class CarServlet extends HttpServlet {
                     car.setDescription(description);
 
                     getCarManager().createCar(car);
-                    log.debug("created {}",car);
+                    log.log(Level.INFO, "Add car in web app");
                     response.sendRedirect(request.getContextPath()+URL_MAPPING);
                     return;
                 } catch (CarException ex) {
-                    log.error("Cannot add car", ex);
+                    log.log(Level.SEVERE, "Cannot add car in web ap :" + ex);
                     response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ex.getMessage());
                     return;
                 }
@@ -90,11 +87,11 @@ public class CarServlet extends HttpServlet {
                 try {
                     Long id = Long.valueOf(request.getParameter("id"));
                     getCarManager().deleteCar(getCarManager().getCarById(id));
-                    log.debug("deleted car {}",id);
-                    response.sendRedirect(request.getContextPath()+URL_MAPPING);
+                    log.log(Level.INFO, "Delete car in web app");
+                    response.sendRedirect(request.getContextPath() + URL_MAPPING);
                     return;
                 } catch (CarException ex) {
-                    log.error("Cannot delete car", ex);
+                    log.log(Level.SEVERE, "Cannot delete car in web app :" + ex);
                     response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ex.getMessage());
                     return;
                 }
@@ -138,38 +135,31 @@ public class CarServlet extends HttpServlet {
                     car.setColor(color);
                     car.setDescription(description);
                     getCarManager().updateCar(car);
-                    log.debug("updated {}",car);
-                    response.sendRedirect(request.getContextPath()+URL_MAPPING);
+                    log.log(Level.INFO, "Update car in web app ");
+                    response.sendRedirect(request.getContextPath() + URL_MAPPING);
                     return;
                 } catch (CarException ex) {
-                    log.error("Cannot update car", ex);
+                    log.log(Level.SEVERE, "Cannot update car in web app :" + ex);
                     response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ex.getMessage());
                     return;
                 }
             default:
-                log.error("Unknown action " + action);
+                log.log(Level.SEVERE, "Unknow action :" +action);
                 response.sendError(HttpServletResponse.SC_NOT_FOUND, "Unknown action " + action);
         }
     }
 
-    /**
-     * Gets BookManager from ServletContext, where it was stored by {@link StartListener}.
-     *
-     * @return BookManager instance
-     */
     private CarManager getCarManager() {
         return (CarManager) getServletContext().getAttribute("carManager");
     }
 
-    /**
-     * Stores the list of books to request attribute "books" and forwards to the JSP to display it.
-     */
+
     private void showCarList(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             request.setAttribute("cars", getCarManager().getAllCars());
             request.getRequestDispatcher(LIST_JSP).forward(request, response);
         } catch (Exception e) {
-            log.error("Cannot show customer", e);
+            log.log(Level.SEVERE, "Cannot show customer car in :" + e);
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage());
         }
     }
