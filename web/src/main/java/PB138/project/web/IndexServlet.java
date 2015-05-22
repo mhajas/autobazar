@@ -36,6 +36,12 @@ public class IndexServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("utf-8");
+        request.setAttribute("manufacturer", request.getParameter("manufacturer"));
+        request.setAttribute("kmMore", request.getParameter("kmMore"));
+        request.setAttribute("kmLess", request.getParameter("kmLess"));
+        request.setAttribute("priceMore", request.getParameter("priceMore"));
+        request.setAttribute("priceLess", request.getParameter("priceLess"));
+        request.setAttribute("color",request.getParameter("color"));
         try {
             String manufacturer = request.getParameter("manufacturer");
             String kmMore = request.getParameter("kmMore");

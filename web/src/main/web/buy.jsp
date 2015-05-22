@@ -13,7 +13,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Bazar u zeleneho kozla</title>
+    <title>Bazar u zeleného kozla</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -49,10 +49,10 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
                 <li>
-                    <a href="https://goo.gl/maps/wSjY5">Kde nas najdete</a>
+                    <a href="https://goo.gl/maps/wSjY5">Kde nás nájdete</a>
                 </li>
                 <li>
-                    <a href="#">Kontakt</a>
+                    <a href="/cars" >Spravovať</a>
                 </li>
             </ul>
         </div>
@@ -67,7 +67,7 @@
     <!-- Title -->
     <div class="row">
         <div class="col-lg-12">
-            <h3>Toto auto chcete kupit</h3>
+            <h3>Toto auto chcete kúpiť</h3>
         </div>
     </div>
     <!-- /.row -->
@@ -81,7 +81,8 @@
                 <div class="caption">
                     <h3><c:out value="${car.manufacturer}"/></h3>
                     <p>KM: <c:out value="${car.km}"/></p>
-                    <p>Farba: <c:out value="${car.color}"/></p>
+                    <p class="filter-p">Farba:</p>
+                    <input type="color" name="color" value="<c:out value="${color}"/>"/>
                     <p>Popis: <c:out value="${car.description}"/></p>
                     <p>Cena: <c:out value="${car.price}"/></p>
                 </div>
@@ -91,26 +92,26 @@
         <div class="col-md-3 col-sm-6 hero-feature">
             <div class="thumbnail">
                 <div class="caption">
-                    <h3>Zadajte svoje osobne udaje</h3>
+                    <h3>Zadajte svoje osobné údaje</h3>
                     <form action="${pageContext.request.contextPath}/buy/sell" method="post">
                         <p>Meno a priezvisko:</p>
                         <input type="text" name="name" value="<c:out value="${name}"/>"/>
                         <p>Adresa:<p>
                         <input type="text" name="adress" value="<c:out value="${adress}"/>"/>
 
-                        <p>Datum narodenia:</p>
+                        <p>Dátum narodenia:</p>
                         <fmt:formatDate value="" type="BOTH" var="parsedBornDate" pattern="yyyy-MM-dd" />
                         <c:set var="string2" value="${fn:replace(parsedBornDate, ' ', 'T')}" />
                         <td><input name="born" type="date" step="1" value="${string2}"/></td>
 
                         <input type="hidden" name="carId" class="btn btn-primary" value="${car.id}" />
-                        <input type="Submit" class="btn btn-primary" value="Kupit" />
+                        <input type="Submit" class="btn btn-primary" value="Kúpiť" />
                     </form>
                 </div>
             </div>
         </div>
     </div>
-    <a href="/" class="btn btn-primary">Zrusit!</a>
+    <a href="/" class="btn btn-primary">Zrušiť</a>
 
     <!-- /.row -->
 
@@ -120,10 +121,9 @@
     <footer>
         <div class="row">
             <div class="col-lg-12">
-                <p>Copyright &copy; Your Website 2014</p>
+                <p>Projekt PB138</p>
             </div>
         </div>
-
     </footer>
 
 </div>
