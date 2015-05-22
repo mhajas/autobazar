@@ -19,7 +19,7 @@
             <td align="center"><c:out value="${car.manufacturer}"/></td>
             <td align="center"><c:out value="${car.km}"/></td>
             <td align="center"><c:out value="${car.price}"/></td>
-            <td align="center"><c:out value="${car.color}"/></td>
+            <td style=" background: ${car.color}"></td>
             <td align="center"><c:out value="${car.description}"/></td>
 
             <td align="left" width="5%"><form method="post" action="${pageContext.request.contextPath}/cars/showUpdate?id=${car.id}"
