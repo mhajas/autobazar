@@ -18,6 +18,7 @@ import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import java.io.*;
 import java.math.BigDecimal;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 /**
@@ -122,7 +123,7 @@ public class BuyServlet extends HttpServlet {
             bw.write("</adress>");
             bw.newLine();
             bw.write("<dateOfBirth>");
-            bw.write(sdf.parse(request.getParameter("born").replace("T", " ")).toString());
+            bw.write(new SimpleDateFormat("dd-MM-yyyy").format(sdf.parse(request.getParameter("born").replace("T", " "))));
             bw.write("</dateOfBirth>");
             bw.newLine();
             bw.write("</customer>");
@@ -130,7 +131,10 @@ public class BuyServlet extends HttpServlet {
             bw.write("</contract>");
             bw.flush();
         }
-        catch (Exception e)
+        catch (ParseException e){
+            System.out.println("Nepodarilo sa rozparsovat datum");
+        }
+        catch(IOException e)
         {
             System.err.println("Do souboru se nepovedlo zapsat.\n");
         }
