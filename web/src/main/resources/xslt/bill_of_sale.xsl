@@ -26,16 +26,16 @@
                 <h2>Čl. I.
                     <br />Smluvní strany</h2>
                 <p>Firma:
-                   <br />Sídlem:
-                    <br />IČ:
+                    <br />Sídlem: Botanická 68A
+                    <br />IČ: 22052015
                     <br />dále jen „prodávající“ na straně jedné
                 </p>
                 <br />
                 <p>a</p>
                 <br />
-                <p>Jméno a příjmení:
-                    <br />Bytem:
-                    <br />Datem narození:
+                <p>Jméno a příjmení: <xsl:value-of select="customer/name"></xsl:value-of>
+                    <br />Bytem: <xsl:value-of select="customer/adress"></xsl:value-of>
+                    <br />Datem narození: <xsl:value-of select="customer/dateOfBirth"></xsl:value-of>
                     <br />dále jen „kupující“ na straně druhé</p>
                 <br />
                 <p>uzavírají níže uvedeného dne, měsíce a roku v souladu s ustanovením § 2079 a násl. zákona č. 89/2012 Sb., občanský zákoník, smlouvu o prodeji motorového vozidla.</p>
@@ -45,18 +45,17 @@
                 <h2>Čl. III.
                     <br />Předmět smlouvy</h2>
                 <p>Předmětem této smlouvy je prodej a koupě níže uvedeného motorového vozidla:</p>
-                <xsl:for-each select="car">
-                    <p>Tovární značka: <xsl:value-of select="manufacturer"></xsl:value-of></p>
+                    <p>Tovární značka: <xsl:value-of select="car/manufacturer"></xsl:value-of></p>
                     <p>Barva vozidla: 
-                        <xsl:value-of select="color"></xsl:value-of>
+                        <xsl:value-of select="car/color"></xsl:value-of>
                     </p>
                     <p>Počet ujetých kilometrů: 
-                        <xsl:value-of select="km"></xsl:value-of>
+                        <xsl:value-of select="car/km"></xsl:value-of>
                     </p>
                     <p>Počet klíčů: 2</p>
                     <p>Stav vozidla při prodeji:
                         <xsl:choose>
-                            <xsl:when test="km>120000">menší technické závady</xsl:when>
+                            <xsl:when test="car/km>120000">menší technické závady</xsl:when>
                             <xsl:otherwise>zcela v pořádku</xsl:otherwise>
                         </xsl:choose>
                     </p>                
@@ -78,10 +77,9 @@
                     <p>Prodávající si sjednává výhradu vlastnického práva k předmětu koupě. Smluvní strany se dohodly, že předmět koupě zůstává až do úplného zaplacení celé kupní ceny uvedené v čl. II ve vlastnictví prodávajícího. Kupující se musí zdržet jakékoliv dispozice s vozidlem, která by mohla ohrozit výhradu vlastnictví prodávajícího.</p>
                     <p>Zaplacením kupní ceny uvedené v čl. II této smlouvy, přechází na kupujícího vlastnické právo prodávaného motorového vozidla.</p>
                     <p>
-                        <xsl:if test="km>150000"> Z důvodu vysokého stáří vozidla a nejasného počtu skutečně najetých kilometrů se prodávající odvolává na ustanovení podle § 1916 NOZ:
+                        <xsl:if test="car/km>150000"> Z důvodu vysokého stáří vozidla a nejasného počtu skutečně najetých kilometrů se prodávající odvolává na ustanovení podle § 1916 NOZ:
                     Podpisem této smlouvy kupující výslovně prohlašuje, že se vzdává svých práv z vad zboží.</xsl:if>
                     </p>
-                </xsl:for-each>
                 <p>Smluvní strany prohlašují, že jsou plně svéprávné k právnímu jednání, že si smlouvu před podpisem přečetly, s jejím obsahem souhlasí a na důkaz toho připojují své podpisy.</p>
                 <p>Tato smlouva nabývá platnosti a účinnosti dnem jejího podpisu oběma smluvními stranami.</p>
                 <p>Tato smlouva se uzavírá ve dvou vyhotoveních, z nichž každá smluvní strana obdrží jedno.</p>
