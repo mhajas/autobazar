@@ -27,10 +27,11 @@
         <title>Popis</title>
         <para> Mojou úlohou bolo vytvorenie webovej aplikácie pre autobazár. Webová aplikácia mala splnovat niekolko kritérii ako:
 <itemizedlist>
-		<listitem>vyhladávanie auta podla kritérii (znacka, cena, najazdené kilometre a farba)</listitem>
+		<listitem>vyhladávanie aut podla kritérii (znacka, cena, najazdené kilometre a farba)</listitem>
 		<listitem>vkladanie, upravovanie a vyberanie áut</listitem>
+		<listitem>vytvorenie objednávky</listitem>
 		<listitem>logovanie</listitem>
-		<listitem>vytvorenie objednávky</listitem>	
+		<listitem>responzívny design stránky</listitem>
 </itemizedlist>		
 </para>
         <sect2>
@@ -38,14 +39,8 @@
             <sect3>
                 <title>Template</title>
                 <para>Na tvorbu základnej webovej stránky som použil free template
-				z internetu. Template používal jadro Bootstrap "bootstrap.min.css"
+				z internetu ktorý som si upravil. Template používa jadro Bootstrap "bootstrap.min.css"
 				a custom CSS "heroic-features.css".</para>
-            </sect3>
-            <sect3>
-                <title>Responzívny web design</title>
-                <para>Použil som triedy z bootstrap, ktoré podporujú responzívny design.</para>
-            </sect3>
-			<sect3>
                 <title>Vysúvací filter</title>
                 <para>Na tvorbu vysúvacieho filtru som využil jquery a bootstrap.
 					</para>
@@ -55,13 +50,12 @@
             <title><emphasis role="underline">JSP</emphasis></title>
             <sect3>
                 <title>Generovanie obsahu</title>
-                <para>Na generovanie obsahu som použil JSP Framework. Data mi poskytuje CarManager.java</para>
+                <para>Na generovanie obsahu som použil JSP Framework. Data mi poskytuje CarManager.java ktoré následne používam ako napr. value="${manufacturer}"</para>
             </sect3>
 		</sect2>
 		<sect2>
             <title><emphasis role="underline">Logger</emphasis></title>
             <sect3>
-			    <title>Logovanie</title>
                 <para>Na logovanie som použil java.util.logging.Logger ktorá sa inicializuje pri štarte web aplikácie v start lisener. Názov log filu je 
 				uložený v config.properties v CLASSPATH. Každá trieda má statickú premennú Logger.getLogger(Main.class.getName()). Logujú sa
 				informácie INFO a SEVERE</para>
