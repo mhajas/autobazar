@@ -38,7 +38,9 @@
               	<title>Template</title>
                 <para>Na tvorbu základnej webovej stránky som použil free template
 				z internetu ktorý som si upravil. Template používa jadro Bootstrap "bootstrap.min.css"
+
 				a custom CSS "heroic-features.css".</para></sect3><sect3>
+
                 <title>Vysúvací filter</title>
                 <para>Na tvorbu vysúvacieho filtru som využil jquery a bootstrap.
 					</para>
