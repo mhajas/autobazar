@@ -19,6 +19,10 @@
     <!-- Custom CSS -->
     <link href="css/heroic-features.css" rel="stylesheet">
 
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -66,6 +70,39 @@
         <h1>Vitajte v bazare u zeleneho kozla!</h1>
     </header>
     <hr>
+
+    <div class="container hero-spacer" style="padding: 0">
+        <button type="button" class="btn btn-info" data-toggle="collapse" style="width: 100%" data-target="#demo">Filter</button>
+        <div id="demo" class="collapse out">
+            <div class="thumbnail " style="width: 100%">
+                <form role="form">
+                    <div class="form-group">
+                        <label for="znacka">Znacka:</label>
+                        <input type="text" class="form-control" id="znacka">
+                        <label for="farba">Farba:</label>
+                        <input type="text" class="form-control" id="farba">
+                    </div>
+
+                    <div class="form-group ">
+                        <label for="kmDo">Najazdene od :</label>
+                        <input type="text" class="form-control" id="kmDo">
+                        <label for="kmOd">Najazdene do :</label>
+                        <input type="text" class="form-control" id="kmOd">
+                    </div>
+
+                    <div class="form-group ">
+                        <label for="cenaDo">Cena do :</label>
+                        <input type="text" class="form-control" id="cenaDo">
+                        <label for="cenaOd">Cena od :</label>
+                        <input type="text" class="form-control" id="cenaOd">
+                    </div>
+                    <a href="/cars" class="btn btn-primary" style="width: 100%">Vyhladat!</a>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
     <!-- Title -->
     <div class="row">
         <div class="col-lg-12">
@@ -74,7 +111,7 @@
     </div>
     <!-- /.row -->
 
-    <!-- Page Features --> //TODO
+    <!-- Page Features -->
     <div class="row text-center">
 
         <c:forEach items="${cars}" var="car">
