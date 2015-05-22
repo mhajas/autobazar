@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<article xmlns="http://docbook.org/ns/docbook" version="5.0"
+    xmlns:xlink="http://www.w3.org/1999/xlink">
+    <info>
+        <title>Backend projektu</title>
+        <author>
+            <personname>Michal Hajas</personname>
+        </author>
+    </info>
+    <sect1>
+        <title>Využité technológie</title>
+        <para>
+            <itemizedlist>
+                <listitem>
+                    <para>Databázový server: eXist-db</para>
+                </listitem>
+				<listitem>
+                    <para>Práca s XQuery a XPath: xmldb</para>
+                </listitem>
+				<listitem>
+                    <para>XML parser: XML DOM</para>
+                </listitem>
+            </itemizedlist>
+        </para>        
+    </sect1>
+
+	<sect1>
+        <title>Popis</title>
+        <para> Pre vytváranie a ukladanie aut som využil natívnu XML databázu
+            eXist-DB, v ktorej som si vytvoril collection(priecinok) "cars" ktorá obsahuje dva resources(XML súbory) "cars.xml" a "data.xml"
+			cars.xml obsahuje údaje o všetkých autách v databázi. A data.xml obsahuje metadáta ktoré potrebujeme pre zarucenie auto incrementu pre id.
+			</para>
+</sect1>
+		<sect1>
+            <title><emphasis role="underline">Funkcionality</emphasis></title>
+            <sect2>
+                <title>Vkladanie auta</title>
+                <para>Pri pripájaní na databázu sa skontroluje ci existuje Collection cars ak nie tak sa vytvori a v nej aj obidva súbory cars.xml a data.xml.
+					Preto si pri vkladaní auta môžeme byt istý, že súbor cars.xml existuje a môže do neho pomocou XQueryService vkladat nové elementy. Pri vytváraní
+					auta sa najprv zistí aké je dalšie id, ktoré sa následne zapíše do databáze a zvýši sa posledne použité id v súbore data.xml. 
+				</para>
+            </sect2>
+		
+            <sect2>
+                <title>Vyberanie aut</title>
+                <para>Vyberanie funguje takým spôsobom, že sa vždy vráti jeden alebo viac elemtov car, ktoré sa následne spracujú pomocou XML DOM. Na vyberanie sa
+				používajú statické metódy z triedy DBUtils, ktorá obsahuje všetky pomocné metódy na prácu s databázou. Napríklad vkladanie auta do XQuery dotazu,
+				parsovanie vráteného elementu car alebo inkrementácia id-cka. Vyberanie sa dá realizovat 3 spôsobmi:</para>
+				
+				<itemizedlist>
+					<listitem>
+						<para><emphasis role="bold">Podla konkrétneho id:</emphasis>
+						Z databáze sa pomocou XQuery a XPath pomienky vyberie jedno konkrétne auto a  </para>					
+</listitem>
+					<listitem>
+						<para><emphasis role="bold">Podla jednej vlastnosti:</emphasis> Z databáze sa pomocou XQuery a XPath pomienky vyberú všetky autá ktoré splnajú jednu podmienku napríklad všetky autá ktoré sú oranžové.</para>
+					</listitem>
+					<listitem>
+						<para><emphasis role="bold">Pomocou SearchEngine:</emphasis>
+						SeachEngine je vlastná trieda vytvorená za úcelom spájania viacerích podmienok do jednej, pomocou ktorej sa následne vyberú iba autá ktoré splnajú 
+						všetky podmienky podmienky vložené do Searchengine.</para>
+					</listitem>
+				</itemizedlist>
+				</sect2>
+            </sect1>
+                   
+</article>

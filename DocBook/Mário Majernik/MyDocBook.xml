@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<article xmlns="http://docbook.org/ns/docbook" version="5.0"
+    xmlns:xlink="http://www.w3.org/1999/xlink">
+    <info>
+        <title>Návrh XML schém a testov</title>
+        <author>
+            <personname>Mário Majernik</personname>
+        </author>
+    </info>
+
+    <sect1>
+        <title>Využité technológie</title>
+        <para>
+            <itemizedlist>
+                <listitem>
+                    <para>Unit Testing: JUnit 4</para>
+                </listitem>                
+            </itemizedlist>
+        </para>        
+    </sect1>
+
+	<sect1>
+        <title>O projekte</title>
+        	<para>Projekt slúži ako webová aplikácia pre katalóg autobazaru. Autá sú uchovávané v XML databáze do ktorej sa dá pridávat a odoberat autá. Aplikácia umožnuje jednotlivé autá vyhladávat pomocou filtrov. Užívatel si môže potom auto kúpit a bude mu vygenerovaná zmluva.</para>
+    </sect1>
+
+    <sect1>
+        <title>Popis mojej prace na projekte</title>
+	<sect2>
+		<title>Unit Testy</title>
+	</sect2>
+        	<para> Mojou úlohou bolo implementovat jednotkové testy (unit tests), ktoré mali odhalit prípadné chyby v implementáciach jednotlivých metód.
+		Testy sú navrhnuté tak aby kontrolovali správnu funkcionalitu všetkých metód. Takisto kontrolujú aj ich argumenty.</para>
+	<sect2>
+		<title>XML Schéma</title>
+		<para> Dalej som mal navrhnút a vytvorit XML schémy pre eXist databázu a XML súbor z ktorého sa pomocou xslt transformácie generuje zmluva. </para>
+	</sect2>
+    </sect1>
+</article>
