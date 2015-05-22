@@ -9,6 +9,10 @@ import org.xmldb.api.base.Database;
 import org.xmldb.api.base.XMLDBException;
 import org.xmldb.api.modules.CollectionManagementService;
 import org.xmldb.api.modules.XMLResource;
+import sun.tools.jar.Main;
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 /**
@@ -19,6 +23,7 @@ import org.xmldb.api.modules.XMLResource;
 
 @Configuration  //je to konfigurace pro Spring
 public class SpringConfig {
+    private static final Logger log = Logger.getLogger(Main.class.getName());
 
     @Bean
     public Collection dataSource(){
@@ -26,6 +31,7 @@ public class SpringConfig {
         try {
             collection = DBUtils.loadOrCreateCarCollection();
         } catch (IllegalAccessException | InstantiationException | ClassNotFoundException | XMLDBException e) {
+            log.log(Level.SEVERE, "Exception in SpringConfig:"+e);
             throw new DBException("Error while getting collection from DB",e);
         }
 

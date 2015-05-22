@@ -1,22 +1,30 @@
 package PB138.project.database;
 
+import sun.tools.jar.Main;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Created by Michal on 21.5.2015.
  */
 public class SearchEngine {
+    private static final Logger log = Logger.getLogger(Main.class.getName());
 
     List<String> conditions = new ArrayList<>();
     List<String> arguments = new ArrayList<>();
 
     public SearchEngine addCondition(String condition, String argument){
+        log.log(Level.INFO, "Search Engine, condition: " + condition+ " and arguments: "+argument);
         if(condition == null || condition.isEmpty()){
+            log.log(Level.SEVERE, "IllegalArgumentException in SearchEngine: condition is null or empty");
             throw new IllegalArgumentException("condition is null or empty");
         }
 
         if(argument == null || argument.isEmpty()){
+            log.log(Level.SEVERE, "IllegalArgumentException in SearchEngine: condition is null or empty");
             throw new IllegalArgumentException("condition is null or empty");
         }
 
