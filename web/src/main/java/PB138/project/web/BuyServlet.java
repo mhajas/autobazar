@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.transform.TransformerException;
+import java.awt.*;
 import java.io.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -73,7 +74,7 @@ public class BuyServlet extends HttpServlet {
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage());
         }
     }
-    private void createContract(HttpServletRequest request, HttpServletResponse response, Car car) throws ServletException{
+    private void createContract(HttpServletRequest request, HttpServletResponse response, Car car) throws ServletException {
 
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(getServletContext().getRealPath("\\WEB-INF\\classes\\tmp\\contract.xml")))) {
             bw.write("<contract>");
@@ -93,7 +94,10 @@ public class BuyServlet extends HttpServlet {
             bw.write("</price>");
             bw.newLine();
             bw.write("<color>");
-            bw.write(car.getColor());
+            //bw.write(car.getColor());
+            String color = car.getColor();
+            Color c=hex2Rgb(color);
+            bw.write("[R "+c.getRed()+";G "+c.getGreen()+ ";B "+c.getBlue()+"]");
             bw.write("</color>");
             bw.newLine();
             bw.write("<description>");
@@ -120,13 +124,16 @@ public class BuyServlet extends HttpServlet {
             bw.newLine();
             bw.write("</contract>");
             bw.flush();
-        }
-        catch (ParseException e){
+        } catch (ParseException e) {
             System.out.println("Nepodarilo sa rozparsovat datum");
-        }
-        catch(IOException e)
-        {
+        } catch (IOException e) {
             System.err.println("Do souboru se nepovedlo zapsat.\n");
         }
     }
+        private Color hex2Rgb(String colorStr) {
+            return new Color(
+                    Integer.valueOf(colorStr.substring(1, 3), 16),
+                    Integer.valueOf(colorStr.substring(3, 5), 16),
+                    Integer.valueOf(colorStr.substring(5, 7), 16));
+        }
 }
