@@ -81,8 +81,11 @@
                 <div class="caption">
                     <h3><c:out value="${car.manufacturer}"/></h3>
                     <p>KM: <c:out value="${car.km}"/></p>
-                    <p class="filter-p">Farba:</p>
-                    <input type="color" name="color" value="<c:out value="${color}"/>"/>
+                    <p style="display: inline-block">Farba:
+                    <div style="margin: 0 5px; display: inline-block;
+                            background: ${car.color}; height: 11px; width: 100px; display: inline-block; border: 1px solid transparent;
+                            border-radius: 4px;"> </div>
+                    </p>
                     <p>Popis: <c:out value="${car.description}"/></p>
                     <p>Cena: <c:out value="${car.price}"/></p>
                 </div>
