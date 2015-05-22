@@ -22,7 +22,7 @@ import java.util.List;
 /**
  * Created by Michal on 24.4.2015.
  */
-public class CarManagerImpl implements CarManager {
+public class CarManagerImpl implements CarManager{
 
     private org.xmldb.api.base.Collection collection;
 

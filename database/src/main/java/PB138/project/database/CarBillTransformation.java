@@ -9,7 +9,7 @@ import java.net.URL;
 /**
  * Created by Michal on 15.5.2015.
  */
-public class CarBillTranformation {
+public class CarBillTransformation {
 
     public static void makeBill(String path)
             throws  TransformerException {
