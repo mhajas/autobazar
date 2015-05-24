@@ -41,6 +41,12 @@ public class IndexServlet extends HttpServlet {
         request.setAttribute("kmLess", request.getParameter("kmLess"));
         request.setAttribute("priceMore", request.getParameter("priceMore"));
         request.setAttribute("priceLess", request.getParameter("priceLess"));
+        String colorCheck = request.getParameter("colorCheck");
+        if(colorCheck==null){
+            request.setAttribute("colorCheck","");
+        }else{
+            request.setAttribute("colorCheck","checked");
+        }
         request.setAttribute("color",request.getParameter("color"));
         try {
             String manufacturer = request.getParameter("manufacturer");
@@ -49,12 +55,13 @@ public class IndexServlet extends HttpServlet {
             String priceMore = request.getParameter("priceMore");
             String priceLess = request.getParameter("priceLess");
             String color = request.getParameter("color");
-            if (manufacturer == null
-                    && kmMore == null
-                    && kmLess == null
-                    && priceMore == null
-                    && priceLess == null
-                    && color == null
+
+            if (manufacturer.isEmpty()
+                    && kmMore.isEmpty()
+                    && kmLess.isEmpty()
+                    && priceMore.isEmpty()
+                    && priceLess.isEmpty()
+                    && colorCheck==null
                     ) {
                 showCarList(request, response,getCarManager().getAllCars());
                 return;
@@ -81,7 +88,7 @@ public class IndexServlet extends HttpServlet {
                 search.addCondition("price>{value}", priceMore);
             }
             if (!(color == null
-                    || color.isEmpty())) {
+                    || color.isEmpty()||colorCheck==null)) {
                 search.addCondition("color={value}", color);
             }
             List<Car> actual = new ArrayList<>(getCarManager().getCarsBySearchEngine(search));

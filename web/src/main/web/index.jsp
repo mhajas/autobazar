@@ -98,7 +98,9 @@
                             <p class="filter-p">Značka:</p>
                             <input type="text" name="manufacturer" class="filter-input" value="<c:out value="${manufacturer}"/>"/>
                             <p class="filter-p">Farba:</p>
-                            <input type="color" name="color" class="filter-input" value="<c:out value="${color}"/>"/>
+                            <input type="color" name="color" class="filter-color" value="<c:out value="${color}"/>"/>
+                            <input type="checkbox" name="colorCheck" class="filter-color" <c:out value="${colorCheck}"/>/>
+
 
                             <p class="filter-p">Najazdené od :</p>
                             <input type="text"  name="kmMore" class="filter-input" value="<c:out value="${kmMore}"/>"/>
@@ -117,20 +119,20 @@
             </div>
         </div>
         <c:forEach items="${cars}" var="car">
-            <div class="col-md-3 col-sm-6 hero-feature">
+            <div class="col-md-3 col-sm-6 hero-feature" >
                 <div class="thumbnail">
                     <img src="buyIcon.jpg" alt="" height="80" width="80">
                     <p class="caption">
                         <h3><c:out value="${car.manufacturer}"/></h3>
-                        <p>KM: <c:out value="${car.km}"/></p>
+                        <p class="car-bottom">KM: <c:out value="${car.km}"/></p>
 
-                        <p style="display: inline-block">Farba:
-                            <div style="margin: 0 5px; display: inline-block;
+                        <p class="car-bottom" style="display: inline-block">Farba:</p>
+                            <div class="car-bottom" style="margin: 0 5px; display: inline-block;
                             background: ${car.color}; height: 11px; width: 100px; display: inline-block; border: 1px solid transparent;
                             border-radius: 4px;"> </div>
-                        </p>
-                        <p>Popis: <c:out value="${car.description}"/></p>
-                        <p>Cena: <c:out value="${car.price}"/></p>
+                        <p class="car-bottom">Popis:</p>
+                        <textarea disabled style="resize: none " rows="3"><c:out value="${car.description}"/></textarea>
+                        <p class="car-bottom" >Cena: <c:out value="${car.price}"/> €</p>
                         <a href="${pageContext.request.contextPath}/buy?id=${car.id}" class="btn btn-primary">Kúpiť!</a>
                     </p>
                 </div>

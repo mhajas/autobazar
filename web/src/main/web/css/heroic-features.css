@@ -17,12 +17,21 @@ body {
 }
 
 .filter-p{
-    margin-bottom: 0;
+    margin-bottom: 4px;
 }
 .filter-input{
-    width: 100%;
+      width: 100%;
+}
+.filter-color{
+    display: inline;
     padding: 0;
 }
+.car-bottom{
+    margin-bottom: 3px;
+}
+
+
+
 
 
 footer {

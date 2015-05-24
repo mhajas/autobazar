@@ -87,7 +87,7 @@
                             border-radius: 4px;"> </div>
                     </p>
                     <p>Popis: <c:out value="${car.description}"/></p>
-                    <p>Cena: <c:out value="${car.price}"/></p>
+                    <p>Cena: <c:out value="${car.price}"/> €</p>
                 </div>
             </div>
         </div>
